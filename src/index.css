@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;550;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --color-zinc-950: #120c08; /* Deep roasted coffee-bean warm brown */
+  --color-zinc-900: #1a120c; /* Warm earth brown container background */
+  --color-zinc-850: #251b12; /* Silt bark border color */
+  --color-zinc-800: #2f2217; /* Branch border line highlights */
+  --color-zinc-700: #4a3424; /* Warm bark accent color */
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #120c08;
+  color: #f7f3f0;
+  font-family: var(--font-sans);
+}
+
+/* Custom fine scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #120c08;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3a281c;
+  border-radius: 2px;
+  border: 2px solid #120c08;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4a3424;
+}
+
+/* Minecraft grass-green selection color */
+::selection {
+  background-color: rgba(34, 197, 94, 0.35);
+  color: #ffffff;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+}
