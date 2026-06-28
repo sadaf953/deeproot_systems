@@ -24,7 +24,7 @@ interface ProjectDetails {
 const DETAIL_PROJECTS: ProjectDetails[] = [
   {
     id: "solar_crm",
-    title: "SolarFlow™ — Solar Operations CRM",
+    title: "SolarFlow™ - Solar Operations CRM",
     category: "The Custom Solar Operations CRM",
     badges: ["React Vite", "Supabase", "PostgreSQL", "Audit Trail", "Milestone Payments"],
     demoUrl: "https://solarflow.mahvishsadaf.com",
@@ -63,7 +63,7 @@ const DETAIL_PROJECTS: ProjectDetails[] = [
       },
       { 
         title: "Accountable Activity Log", 
-        desc: "Every transition and update is logged with agent identity and timestamp — e.g. 'G. Prasad: Moved to Meter Installation (ADMIN)'.",
+        desc: "Every transition and update is logged with agent identity and timestamp (e.g. 'G. Prasad: Moved to Meter Installation (ADMIN)').",
         icon: ShieldCheck
       },
       { 
@@ -148,7 +148,7 @@ const DETAIL_PROJECTS: ProjectDetails[] = [
       },
       { 
         title: "Zero-Trace Privacy", 
-        desc: "No permanent file storage — files are converted and parsed entirely in memory/temporary cache structures.",
+        desc: "No permanent file storage. Files are converted and parsed entirely in memory/temporary cache structures.",
         icon: ShieldCheck
       },
       { 
