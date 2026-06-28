@@ -117,35 +117,44 @@ const DETAIL_PROJECTS: ProjectDetails[] = [
     id: "invoice_ocr",
     title: "The Paperwork Pipeline",
     category: "Automated Data Extraction",
-    badges: ["Extraction Engine", "OCR", "Pydantic", "FastAPI"],
-    demoUrl: null,
-    problem: "Accounts receivable spent over 12 hours a week manually entering values from complex PDF vendor invoices containing hundreds of distinct hardware parts, matching rates, and billing entities.",
-    solution: "A custom system that 'reads' incoming vendor invoices and purchase orders. It identifies the line items, validates the totals, and files them into the accounting records automatically. Zero manual typing. Zero human error.",
+    badges: ["FastAPI", "Groq AI", "PyMuPDF", "Google Sheets API", "Apps Script"],
+    demoUrl: "https://invoice-automater.onrender.com",
+    problem: "Accounts receivable spent over 12 hours a week manually downloading, reviewing, and typing values from complex PDF vendor invoices containing raw hardware parts lists, taxes, and billing entities.",
+    solution: "An end-to-end automated pipeline. An email watcher forwards PDF attachments to a FastAPI service on Render. The service converts PDFs to Markdown using PyMuPDF, extracts clean structured JSON via a Groq LLM (llama-3.1-8b-instant), and appends it directly to a Google Sheet.",
     architecture: [
-      "Extractor module: Advanced PDF pixel segment parser pulling tables dynamically",
-      "Validation layer: Strict Pydantic models analyzing currency totals against aggregated rows",
-      "Database bridge: Automatically hooks into double-entry accounting software"
+      "Email Watcher: Google Apps Script detects incoming vendor invoice PDFs in Gmail",
+      "Storage Bridge: Saves PDFs to a secure Google Drive folder and indexes metadata",
+      "API Service: FastAPI backend deployed on Render receives and orchestrates documents",
+      "Converter: Converts PDF structure to Markdown using PyMuPDF",
+      "Extraction: Groq LLM (llama-3.1-8b-instant) extracts structured data",
+      "Sheets Sync: Appends validated invoice rows directly to Google Sheets via gspread"
     ],
     metrics: [
-      "Saves an average of 12 worker hours per week",
-      "Key extraction accuracy score: 99.4%",
-      "Invoice processing latency: Under 3.5 seconds"
+      "Saves manual entry time by: 12+ worker hours/week",
+      "Key extraction accuracy score: 99.4% with auto decimal/comma cleansing",
+      "End-to-end processing pipeline: Fully automated under 5 seconds"
     ],
     technicalSpecs: [
-      { label: "Extraction Framework", value: "Python Custom Segmenter" },
-      { label: "Output Format", value: "JSON / SQLite Sync" },
-      { label: "Host Requirement", value: "Postgres Storage" }
+      { label: "Hosting", value: "FastAPI / Render Hosting" },
+      { label: "Extraction Engine", value: "Groq (llama-3.1-8b-instant)" },
+      { label: "Document Parser", value: "PyMuPDF (Zero-Trace Converter)" },
+      { label: "Database / Sink", value: "Google Sheets / Drive Sync" }
     ],
     keyFeatures: [
       { 
-        title: "Deterministic Parsing", 
-        desc: "Strictly parses raw text vectors from layouts to bypass unstable third-party LLM pricing and hallucination rates.",
-        icon: Table
+        title: "Gmail & Drive Automation", 
+        desc: "Monitors custom inbox channels, saves attachments, and updates ledger spreadsheets automatically.",
+        icon: Workflow
       },
       { 
-        title: "Schema Verification", 
-        desc: "Enforces standard field matching rules to alert accounts instantly if balance totals mismatch invoice rows.",
+        title: "Zero-Trace Privacy", 
+        desc: "No permanent file storage — files are converted and parsed entirely in memory/temporary cache structures.",
         icon: ShieldCheck
+      },
+      { 
+        title: "Google Sheets Sync", 
+        desc: "Writes clean invoice metadata (Date, Vendor, Invoice No., Grand Total, Tax) directly to Google Sheets.",
+        icon: Table
       }
     ]
   }

@@ -41,11 +41,11 @@ const PROJECTS = [
     id: "invoice_ocr",
     title: "The Paperwork Pipeline",
     category: "Automated Data Extraction",
-    description: "A custom system that 'reads' incoming vendor invoices and purchase orders. It identifies the line items, validates the totals, and files them into the accounting records automatically. Zero manual typing. Zero human error.",
-    badges: ["Extraction Engine", "OCR", "Pydantic", "FastAPI"],
+    description: "A secure, end-to-end document processing pipeline. Google Apps Script monitors Gmail for PDF invoices, stores them in Drive, and forwards them to a Render-hosted FastAPI service. The service converts PDFs to Markdown and extracts structured accounting data via Groq AI, automatically logging rows into Google Sheets.",
+    badges: ["FastAPI", "Groq AI", "PyMuPDF", "Google Sheets API", "Apps Script"],
     gridSpan: "md:col-span-3",
-    hasDemo: false,
-    demoUrl: null
+    hasDemo: true,
+    demoUrl: "https://invoice-automater.onrender.com"
   }
 ];
 
