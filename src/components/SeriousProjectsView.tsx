@@ -119,7 +119,7 @@ const DETAIL_PROJECTS: ProjectDetails[] = [
     category: "Automated Data Extraction",
     badges: ["FastAPI", "Groq AI", "PyMuPDF", "Google Sheets API", "Apps Script"],
     demoUrl: "https://invoice-automater.onrender.com",
-    problem: "Accounts receivable spent over 12 hours a week manually downloading, reviewing, and typing values from complex PDF vendor invoices containing raw hardware parts lists, taxes, and billing entities.",
+    problem: "Businesses receiving invoices in bulk often miss them in congested email inboxes, leading to late payments, manual sorting delays, and hours of tedious download-and-log overhead.",
     solution: "An end-to-end automated pipeline. An email watcher forwards PDF attachments to a FastAPI service on Render. The service converts PDFs to Markdown using PyMuPDF, extracts clean structured JSON via a Groq LLM (llama-3.1-8b-instant), and appends it directly to a Google Sheet.",
     architecture: [
       "Email Watcher: Google Apps Script detects incoming vendor invoice PDFs in Gmail",
