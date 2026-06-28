@@ -21,37 +21,44 @@ export function ContactForm() {
   const [isSubmitted, setIsSubmitted] = React.useState(false);
   const [step, setStep] = React.useState<"form" | "result">("form");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const activeBottleneck = BOTTLENECKS.find(b => b.id === selectedBottleneck);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email) return;
 
     setIsSubmitting(true);
-    
-    // Structure details into mailto payload
-    const subject = encodeURIComponent(`Operational Assessment Query - ${company || 'Deeproot Partner'}`);
-    const body = encodeURIComponent(
-      `Hi Deeproot Systems,\n\n` +
-      `We want to start a conversation about our process bottlenecks.\n\n` +
-      `Company Name: ${company || "Not provided"}\n` +
-      `Primary Bottleneck Topic: ${activeBottleneck ? activeBottleneck.label : "Custom Operations Review"}\n\n` +
-      `Silo Description:\n` +
-      `"${customText || "Workflow audit request."}"\n\n` +
-      `Please let us know how we can schedule our introductory operations call.\n\n` +
-      `Best regards,\n` +
-      `${name}\n` +
-      `Direct Email: ${email}`
-    );
 
-    // Simulate generation of custom operations assessment report & launch mailto client
-    setTimeout(() => {
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/enquiry@mahvishsadaf.com", {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          _subject: `Deeproot Operations Inquiry from ${name} (${company || 'No Company'})`,
+          name: name,
+          email: email,
+          company: company || "Not provided",
+          bottleneck: activeBottleneck ? activeBottleneck.label : "Custom Operations Review",
+          message: customText || "Workflow audit request."
+        })
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        setStep("result");
+      } else {
+        alert("Failed to send message. Please try again or email us directly at enquiry@mahvishsadaf.com.");
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      alert("Failed to connect to the mail service. Please try again or email us directly at enquiry@mahvishsadaf.com.");
+    } finally {
       setIsSubmitting(false);
-      setIsSubmitted(true);
-      setStep("result");
-      window.location.href = `mailto:enquiry@mahvishsadaf.com?subject=${subject}&body=${body}`;
-    }, 1500);
+    }
   };
-
-  const activeBottleneck = BOTTLENECKS.find(b => b.id === selectedBottleneck);
 
   return (
     <div className="w-full max-w-2xl mx-auto border border-[#251b12] bg-[#1a120c]/90 rounded-xl p-6 md:p-8 relative overflow-hidden backdrop-blur-md">
