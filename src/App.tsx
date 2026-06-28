@@ -20,9 +20,9 @@ const PROJECTS = [
   {
     id: "solar_crm",
     title: "SolarFlow™",
-    category: "The Industry-Specific Command Center",
-    description: "We transformed a solar firm’s chaotic manual process into an automated engine. SolarFlow handles complex project tracking, zero-math financial auditing, and instant field-to-office photo syncing. It didn’t just organize the business, it gave the owner 15 hours of his life back every single week.",
-    badges: ["Operations CRM"],
+    category: "The Custom Solar Operations CRM",
+    description: "Built to upgrade solar installers from error-prone Google Sheets to a robust, accountable database. Powered by React and Supabase, SolarFlow provides a real-time financial dashboard, a visual 11-stage project pipeline, and an immutable activity audit log. It coordinates agents and admins to eliminate double data entry and collect receivables faster.",
+    badges: ["React Vite", "Supabase", "Financial Ledger", "Audit Logging", "Role-Based Access"],
     gridSpan: "md:col-span-2",
     hasDemo: true,
     demoUrl: "https://solarflow.mahvishsadaf.com"

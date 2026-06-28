@@ -25,56 +25,56 @@ const DETAIL_PROJECTS: ProjectDetails[] = [
   {
     id: "solar_crm",
     title: "SolarFlow™ — Solar Operations CRM",
-    category: "The Industry-Specific Command Center",
-    badges: ["React Vite", "Supabase", "PostgreSQL", "Docker", "Compliance Modules"],
+    category: "The Custom Solar Operations CRM",
+    badges: ["React Vite", "Supabase", "PostgreSQL", "Audit Trail", "Milestone Payments"],
     demoUrl: "https://solarflow.mahvishsadaf.com",
-    problem: "Solar installers were losing revenue to invisible leaks — scattered Excel sheets, WhatsApp photo dumps, and miscalculated installment balances. PM Surya Ghar Yojana subsidy claims were being rejected due to typo-ridden LT category entries and missing DISCOM submission logs. There was no single source of truth.",
-    solution: "SolarFlow is a specialized operations dashboard built exclusively for Indian solar installers. It provides complete pipeline visibility from first customer contact to DISCOM commissioning — with built-in compliance tracking, automated financials, and role-based field access.",
+    problem: "The installer was managing projects and payments across scattered Google Sheets. Financial calculations like Total Sales, Realized Cash, and Pending Receivables were prone to manual typos. Field agents had no simple way to upload leads, and changes were hard to track, leading to a lack of accountability and coordination errors.",
+    solution: "A custom React web app with a Supabase backend that acts as a secure, structured alternative to spreadsheets. It includes two modes (Agents for lead uploads, Admins for project transitions), an automatic financial dashboard tracking cash flow, and an immutable stage-change audit log to ensure total team accountability.",
     architecture: [
-      "Client UI: React Vite + Tailwind CSS",
-      "Database: Supabase PostgreSQL with Row Level Security (RLS)",
-      "Auth: Role-Based Postgres Auth via Supabase",
-      "Financials: Reactive client-side ledger with milestone-based calculations",
-      "Validation: DISCOM division metadata checks on field input",
-      "Export: CSV & Excel backup utility"
+      "Client UI: Single-page React Vite web application with responsive styling",
+      "Backend database: Supabase PostgreSQL (Free Tier) housing relational tables",
+      "Authentication: Dual-role setup separating field agent permissions from full admin operations",
+      "Audit Trail: Database-level triggers that record every single stage change and financial update",
+      "State Engine: Interactive 11-stage project pipeline (Leads to Completed) with easy transition logs",
+      "Future Expansion: Gmail API integration to auto-generate client document folders in Google Drive"
     ],
     metrics: [
-      "WhatsApp coordination reduced by: 95%",
-      "PM Surya Ghar manual tracking errors: 0%",
-      "Receivable collection time cut by: 14 working days",
-      "Aadhaar & photo access leaks: Completely eliminated"
+      "Spreadsheet formula errors: 100% eliminated",
+      "Realized cash tracking: Managed across ₹87.8L of sales",
+      "Duplicate entries: Prevented by schema-level database validation constraints",
+      "Team accountability: 100% of stage changes recorded in the activity log"
     ],
     technicalSpecs: [
-      { label: "Hosting", value: "Docker / Self-Hosted VPS" },
-      { label: "Compliance", value: "LT-1 & LT-2 DISCOM divisions" },
-      { label: "Auth System", value: "Role-Based Postgres Auth" },
-      { label: "Export", value: "CSV & Tabular Excel Backup" }
+      { label: "Framework", value: "React Vite + Tailwind CSS" },
+      { label: "Backend Database", value: "Supabase PostgreSQL (Free Tier)" },
+      { label: "Pipeline Stages", value: "11 distinct operational stages" },
+      { label: "Audit Mechanism", value: "Immutable Activity Log" }
     ],
     keyFeatures: [
       { 
-        title: "Integrated Project Lifecycle", 
-        desc: "Tracks installer progress across 11 stages including material procurement, site surveys, and DISCOM commissioning checklist submissions.",
+        title: "11-Stage Pipeline", 
+        desc: "Easily track and transition projects from Leads, Material Procurement, through DISCOM Inspection, to Completed.",
         icon: Workflow
       },
       { 
-        title: "Indian Regulatory Readiness", 
-        desc: "Built-in tracking for PM Surya Ghar Yojana claims, LT-1/LT-2 categories, and EB utility accounts — preventing the compliance errors that cause subsidy rejections.",
-        icon: ShieldCheck
-      },
-      { 
-        title: "Smart Financial Ledger", 
-        desc: "Automates multi-payment installations, instantly distinguishing Total Received vs Pending balances with zero manual math.",
+        title: "Financial Dashboard", 
+        desc: "Automatically aggregates financials in one page: Total Sales, Pending Dues, and Realized Cash Inflow (e.g. ₹9.30L realized out of ₹87.8L total).",
         icon: Table
       },
       { 
-        title: "Auto CRN Code Generation", 
-        desc: "Prevents typo mistakes by auto-indexing client names with chronological integers to produce Customer Reference Numbers.",
-        icon: Cpu
+        title: "Accountable Activity Log", 
+        desc: "Every transition and update is logged with agent identity and timestamp — e.g. 'G. Prasad: Moved to Meter Installation (ADMIN)'.",
+        icon: ShieldCheck
       },
-      {
-        title: "Secure Document Handling",
-        desc: "Automated Google Drive folders per project — KYC, site photos, and DISCOM docs organized from Day 1 with strict access controls.",
-        icon: Database
+      { 
+        title: "Customer Card & Checklist", 
+        desc: "Contains comprehensive checklists for permissions, document verification (PM Surya Ghar compliance), and post-installation records.",
+        icon: ClipboardList
+      },
+      { 
+        title: "Agent Lead Uploads", 
+        desc: "Dedicated mode for field agents to upload lead data directly on the go, reducing data entry lag for the back office.",
+        icon: Cpu
       }
     ]
   },
