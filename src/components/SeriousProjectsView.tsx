@@ -115,7 +115,7 @@ const DETAIL_PROJECTS: ProjectDetails[] = [
   },
   {
     id: "invoice_ocr",
-    title: "The Paperwork Pipeline",
+    title: "Invoice Automater",
     category: "Automated Data Extraction",
     badges: ["FastAPI", "Groq AI", "PyMuPDF", "Google Sheets API", "Apps Script"],
     demoUrl: "https://invoice-automater.onrender.com",
