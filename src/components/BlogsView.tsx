@@ -77,7 +77,7 @@ export function BlogsView() {
               <div className="border-t border-zinc-900 pt-4 mt-6 flex justify-between items-center text-xs">
                 <div className="flex items-center space-x-2 text-zinc-500">
                   <IconComponent size={14} className="text-zinc-500" />
-                  <span className="text-[10px] font-mono">[DP_SYS_LOG_0{blog.id}]</span>
+                  <span className="text-[10px] font-mono">{blog.date}</span>
                 </div>
                 <span className="text-[#22c55e] flex items-center gap-1 font-semibold group-hover:translate-x-0.5 transition-transform cursor-pointer">
                   Read Article <ArrowRight size={12} />

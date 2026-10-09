@@ -1,7 +1,8 @@
 import * as React from "react";
 import { 
-  Briefcase, Zap, ExternalLink, ArrowRight, ShieldCheck, Database, 
-  Workflow, Table, ClipboardList, CheckCircle2, TrendingUp, Cpu, Server
+  Briefcase, ArrowRight, ShieldCheck, Database, 
+  Workflow, Table, ClipboardList, CheckCircle2, TrendingUp, Cpu, Server,
+  Landmark, FileText, Truck, Users
 } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { Card, CardTitle, CardDescription } from "@/src/components/ui/card";
@@ -12,7 +13,6 @@ interface ProjectDetails {
   title: string;
   category: string;
   badges: string[];
-  demoUrl: string | null;
   problem: string;
   solution: string;
   architecture: string[];
@@ -25,56 +25,60 @@ const DETAIL_PROJECTS: ProjectDetails[] = [
   {
     id: "solar_crm",
     title: "SolarFlow™ - Solar Operations CRM",
-    category: "The Custom Solar Operations CRM",
-    badges: ["React Vite", "Supabase", "PostgreSQL", "Audit Trail", "Milestone Payments"],
-    demoUrl: "https://solarflow.mahvishsadaf.com",
-    problem: "The installer was managing projects and payments across scattered Google Sheets. Financial calculations like Total Sales, Realized Cash, and Pending Receivables were prone to manual typos. Field agents had no simple way to upload leads, and changes were hard to track, leading to a lack of accountability and coordination errors.",
-    solution: "A custom React web app with a Supabase backend that acts as a secure, structured alternative to spreadsheets. It includes two modes (Agents for lead uploads, Admins for project transitions), an automatic financial dashboard tracking cash flow, and an immutable stage-change audit log to ensure total team accountability.",
+    category: "Solar EPC Operations Platform",
+    badges: ["React", "Supabase", "Row-Level Security", "PM Surya Ghar", "Inventory & BOM"],
+    problem: "Rooftop solar installers run every project through the same long chain: quotation, registration, Jansamarth loan or cash, material order, delivery, installation, geo-tagging, DISCOM paperwork, meter fitting, inspection and the PM Surya Ghar subsidy. Most teams track all of it in Google Sheets and WhatsApp, across channel partners, dealers, installation vendors and stamp makers. Loans and subsidies move on their own timelines, stock goes missing from the godown, and nobody can say who changed what.",
+    solution: "One system for the whole company. Every customer moves through a guided 14-stage pipeline where each stage asks only for the one or two fields that matter. Loan and subsidy status run on their own tracks with dated history. Materials, deliveries and stock are tied to each customer, and every partner, vendor and document maker gets their own portal that shows only their work.",
     architecture: [
-      "Client UI: Single-page React Vite web application with responsive styling",
-      "Backend database: Supabase PostgreSQL (Free Tier) housing relational tables",
-      "Authentication: Dual-role setup separating field agent permissions from full admin operations",
-      "Audit Trail: Database-level triggers that record every single stage change and financial update",
-      "State Engine: Interactive 11-stage project pipeline (Leads to Completed) with easy transition logs",
-      "Future Expansion: Gmail API integration to auto-generate client document folders in Google Drive"
+      "Frontend: React + Vite single-page app with Tailwind CSS, with each role's portal loaded on demand",
+      "Backend: Supabase PostgreSQL with Auth, Storage and Edge Functions for staff onboarding and vendor job notifications",
+      "Access control: 8 user roles enforced with database row-level security, so partner offices only ever see their own network",
+      "Documents: quotations, feasibility reports, BOM loading checklists and agreements generated as PDFs in the browser",
+      "Field capture: in-browser barcode scanning of inverter and panel serial numbers, plus geo-tag photo uploads",
+      "Client intake: a shareable enquiry form for new customers that autosaves and can be resumed securely later"
     ],
     metrics: [
-      "Spreadsheet formula errors: 100% eliminated",
-      "Realized cash tracking: Managed across ₹87.8L of sales",
-      "Duplicate entries: Prevented by schema-level database validation constraints",
-      "Team accountability: 100% of stage changes recorded in the activity log"
+      "14 working stages from lead to subsidy, plus Completed and Lost",
+      "8 user roles across 4 dedicated portals",
+      "Stock deducted exactly once per delivered customer",
+      "Up to 500 panel serials per customer, captured by barcode"
     ],
     technicalSpecs: [
-      { label: "Framework", value: "React Vite + Tailwind CSS" },
-      { label: "Backend Database", value: "Supabase PostgreSQL (Free Tier)" },
-      { label: "Pipeline Stages", value: "11 distinct operational stages" },
-      { label: "Audit Mechanism", value: "Immutable Activity Log" }
+      { label: "Framework", value: "React + Vite + Tailwind" },
+      { label: "Backend", value: "Supabase (Postgres, Auth, Storage)" },
+      { label: "Access Control", value: "8 roles, row-level security" },
+      { label: "Pipeline", value: "14 stages + loan & subsidy tracks" }
     ],
     keyFeatures: [
-      { 
-        title: "11-Stage Pipeline", 
-        desc: "Easily track and transition projects from Leads, Material Procurement, through DISCOM Inspection, to Completed.",
+      {
+        title: "Lead-to-Subsidy Pipeline",
+        desc: "Leads, Registration, Loan or Cash, Material Order, Integration, Delivery, Installation, Geo Tag, DISCOM Submission, Meter, DISCOM Inspection, Subsidy and Final Review. Paused projects keep their stage and resume where they left off.",
         icon: Workflow
       },
-      { 
-        title: "Financial Dashboard", 
-        desc: "Automatically aggregates financials in one page: Total Sales, Pending Dues, and Realized Cash Inflow (e.g. ₹9.30L realized out of ₹87.8L total).",
-        icon: Table
+      {
+        title: "Loan & Subsidy Tracking",
+        desc: "Jansamarth loans (in process, sanctioned, 1st and 2nd bank release) and PM Surya Ghar subsidies (in process, redeemed, approved, received) are tracked separately from the project stage, each with dated history.",
+        icon: Landmark
       },
-      { 
-        title: "Accountable Activity Log", 
-        desc: "Every transition and update is logged with agent identity and timestamp (e.g. 'G. Prasad: Moved to Meter Installation (ADMIN)').",
+      {
+        title: "Quotations That Become Leads",
+        desc: "Build branded quotations with capacity sizing, brand options, discounts and subsidy, download the PDF, and convert an approved quote into a customer record without retyping anything.",
+        icon: FileText
+      },
+      {
+        title: "Inventory, BOM & Delivery Trips",
+        desc: "Each customer gets a bill of materials and a printable loading checklist. Trips club several customers on one truck with driver and vehicle, stock is deducted on delivery, and a daily godown report shows opening and closing stock.",
+        icon: Truck
+      },
+      {
+        title: "Portals for Every Partner",
+        desc: "Channel partner offices and dealers manage only their own leads. Installation vendors see only their assigned jobs and update installation and geo-tag status. Stamp makers receive DISCOM agreement requests and return the signed files.",
+        icon: Users
+      },
+      {
+        title: "Full Audit Trail",
+        desc: "Every save and stage move is recorded in the activity log with the person and role behind it, alongside vendor installation payments and dated customer history.",
         icon: ShieldCheck
-      },
-      { 
-        title: "Customer Card & Checklist", 
-        desc: "Contains comprehensive checklists for permissions, document verification (PM Surya Ghar compliance), and post-installation records.",
-        icon: ClipboardList
-      },
-      { 
-        title: "Agent Lead Uploads", 
-        desc: "Dedicated mode for field agents to upload lead data directly on the go, reducing data entry lag for the back office.",
-        icon: Cpu
       }
     ]
   },
@@ -83,7 +87,6 @@ const DETAIL_PROJECTS: ProjectDetails[] = [
     title: "The Secure Company Brain",
     category: "Private AI Intelligence",
     badges: ["Local Llama", "Pinecone DB", "LangChain", "FastAPI"],
-    demoUrl: null,
     problem: "We built a private, highly secure intelligence for a firm that needed instant answers from 10,000+ pages of internal policies and past contracts. Customer and corporate details are highly sensitive and require absolute insulation from public networks.",
     solution: "A local, secure vector retrieval service where employees ask questions in plain English; the 'Brain' answers instantly with exact source citations. 100% of the data stays strictly inside the company walls.",
     architecture: [
@@ -118,7 +121,6 @@ const DETAIL_PROJECTS: ProjectDetails[] = [
     title: "Invoice Automater",
     category: "Automated Data Extraction",
     badges: ["FastAPI", "Groq AI", "PyMuPDF", "Google Sheets API", "Apps Script"],
-    demoUrl: "https://invoice-automater.onrender.com",
     problem: "Businesses receiving invoices in bulk often miss them in congested email inboxes, leading to late payments, manual sorting delays, and hours of tedious download-and-log overhead.",
     solution: "An end-to-end automated pipeline. An email watcher forwards PDF attachments to a FastAPI service on Render. The service converts PDFs to Markdown using PyMuPDF, extracts clean structured JSON via a Groq LLM (llama-3.1-8b-instant), and appends it directly to a Google Sheet.",
     architecture: [
@@ -162,9 +164,10 @@ const DETAIL_PROJECTS: ProjectDetails[] = [
 
 interface SeriousProjectsViewProps {
   initialProjectId?: string;
+  onRequestDemo?: (projectTitle: string) => void;
 }
 
-export function SeriousProjectsView({ initialProjectId = "solar_crm" }: SeriousProjectsViewProps) {
+export function SeriousProjectsView({ initialProjectId = "solar_crm", onRequestDemo }: SeriousProjectsViewProps) {
   const [activeId, setActiveId] = React.useState(initialProjectId);
 
   const activeProject = DETAIL_PROJECTS.find(p => p.id === activeId) || DETAIL_PROJECTS[0];
@@ -177,12 +180,12 @@ export function SeriousProjectsView({ initialProjectId = "solar_crm" }: SeriousP
         <div className="inline-flex items-center space-x-2 bg-[#14321a]/30 border border-[#14321a] rounded-full px-3 py-1 mb-2">
           <Briefcase size={13} className="text-[#22c55e]" />
           <span className="text-[10px] font-mono tracking-wider uppercase text-green-300 font-bold">
-            Enterprise Deployed Systems
+            Products
           </span>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white mb-2">Enterprise Operational Products</h2>
+        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white mb-2">Our Products</h2>
         <p className="text-sm text-zinc-400">
-          A granular view of the functional, reliable operational software architectures we have fully built, hardened, and deployed directly to client infrastructure.
+          The problem each system solves, how it is built, and what it changed for the business using it.
         </p>
       </div>
 
@@ -191,7 +194,7 @@ export function SeriousProjectsView({ initialProjectId = "solar_crm" }: SeriousP
         
         {/* Left rail selector */}
         <div className="lg:col-span-4 flex flex-col space-y-3">
-          <span className="text-[10px] font-mono text-zinc-550 uppercase tracking-widest px-2 block">SELECT INSTANCE TO INSPECT</span>
+          <span className="text-[10px] font-mono text-zinc-550 uppercase tracking-widest px-2 block">Select a project</span>
           
           <div className="space-y-2">
             {DETAIL_PROJECTS.map(proj => (
@@ -206,7 +209,6 @@ export function SeriousProjectsView({ initialProjectId = "solar_crm" }: SeriousP
               >
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-mono tracking-wider text-green-500 font-semibold">{proj.badges[0]}</span>
-                  <span className="text-[9px] font-mono text-zinc-650">[LIVE_DP]</span>
                 </div>
                 <h4 className="font-semibold text-sm mt-1 text-zinc-150">{proj.title}</h4>
                 <p className="text-[11px] text-zinc-500 mt-2 line-clamp-2 leading-relaxed">
@@ -234,17 +236,15 @@ export function SeriousProjectsView({ initialProjectId = "solar_crm" }: SeriousP
                 </h3>
               </div>
               
-              {/* Demo button if exists */}
-              {activeProject.demoUrl && (
+              {onRequestDemo && (
                 <Button
                   variant="default"
                   size="sm"
-                  className="shadow-[0_0_15px_rgba(34,197,94,0.3)] hover:shadow-[0_0_22px_rgba(34,197,94,0.5)] border border-[#a7f3d0] font-bold self-start sm:self-auto shrink-0 h-9"
-                  onClick={() => window.open(activeProject.demoUrl!, "_blank")}
+                  className="font-semibold self-start sm:self-auto shrink-0 h-9 cursor-pointer"
+                  onClick={() => onRequestDemo(activeProject.title.split(" - ")[0])}
                 >
-                  <Zap size={14} className="mr-1.5 text-zinc-900 fill-zinc-900" />
-                  Launch Live System Demo
-                  <ExternalLink size={13} className="ml-1.5" />
+                  Request a Demo
+                  <ArrowRight size={14} className="ml-1.5" />
                 </Button>
               )}
             </div>
@@ -256,7 +256,7 @@ export function SeriousProjectsView({ initialProjectId = "solar_crm" }: SeriousP
               <div className="space-y-2">
                 <div className="flex items-center space-x-1.5">
                   <span className="h-1 w-1 bg-red-500 rounded-full" />
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-450">THE BUSINESS PROBLEM</span>
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-450">The problem</span>
                 </div>
                 <p className="text-xs text-zinc-300 leading-relaxed font-normal">
                   {activeProject.problem}
@@ -267,7 +267,7 @@ export function SeriousProjectsView({ initialProjectId = "solar_crm" }: SeriousP
               <div className="space-y-2">
                 <div className="flex items-center space-x-1.5">
                   <span className="h-1 w-1 bg-[#22c55e] rounded-full" />
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#22c55e]">THE ENGINEERED SOLUTION</span>
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#22c55e]">What we built</span>
                 </div>
                 <p className="text-xs text-zinc-300 leading-relaxed font-normal">
                   {activeProject.solution}
@@ -278,7 +278,7 @@ export function SeriousProjectsView({ initialProjectId = "solar_crm" }: SeriousP
 
             {/* Core Features list grids */}
             <div className="space-y-4 pt-4 border-t border-zinc-900">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-450 block">BESPOKE SYSTEM ADVANTAGES</span>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-450 block">Key features</span>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {activeProject.keyFeatures.map((feat, idx) => {
                   const FeatIcon = feat.icon;
@@ -299,7 +299,7 @@ export function SeriousProjectsView({ initialProjectId = "solar_crm" }: SeriousP
 
             {/* Architecture Details */}
             <div className="space-y-3 pt-4 border-t border-zinc-900">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-450 block">DEPLOYMENT ARCHITECTURE</span>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-450 block">How it is built</span>
               <ul className="space-y-1.5">
                 {activeProject.architecture.map((arch, idx) => (
                   <li key={idx} className="flex items-start text-[11px] text-zinc-400 font-normal leading-relaxed">
@@ -315,7 +315,7 @@ export function SeriousProjectsView({ initialProjectId = "solar_crm" }: SeriousP
               
               {/* Metrics */}
               <div className="space-y-2.5">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-450 block">AUDITED PERFORMANCE METRICS</span>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-450 block">Key numbers</span>
                 <div className="space-y-1.5">
                   {activeProject.metrics.map((metric, idx) => (
                     <div key={idx} className="flex items-center space-x-2 text-[11px] text-zinc-300 font-mono">
@@ -328,7 +328,7 @@ export function SeriousProjectsView({ initialProjectId = "solar_crm" }: SeriousP
 
               {/* Technical Specifications */}
               <div className="space-y-2.5">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-450 block">TECHNICAL RUNTIME SHEET</span>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-450 block">Tech specs</span>
                 <div className="bg-zinc-950 rounded-xl border border-zinc-900 p-3 space-y-1.5 font-mono text-[10px]">
                   {activeProject.technicalSpecs.map((spec, idx) => (
                     <div key={idx} className="flex justify-between py-1 border-b border-zinc-900/40 last:border-0 leading-normal">

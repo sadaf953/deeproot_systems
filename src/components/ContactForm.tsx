@@ -11,7 +11,11 @@ const BOTTLENECKS = [
   { id: "customer_support", label: "SOP & Knowledge Lookup", desc: "Agents seeking product answers", solution: "Private RAG-enabled knowledge system grounded strictly in your proprietary manuals." }
 ];
 
-export function ContactForm() {
+interface ContactFormProps {
+  prefillMessage?: string;
+}
+
+export function ContactForm({ prefillMessage = "" }: ContactFormProps) {
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [company, setCompany] = React.useState("");
@@ -23,6 +27,14 @@ export function ContactForm() {
 
   const activeBottleneck = BOTTLENECKS.find(b => b.id === selectedBottleneck);
 
+  // When a visitor clicks "Request a Demo", start their message for them
+  React.useEffect(() => {
+    if (prefillMessage) {
+      setStep("form");
+      setCustomText(prefillMessage);
+    }
+  }, [prefillMessage]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email) return;
@@ -30,7 +42,7 @@ export function ContactForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/enquiry@mahvishsadaf.com", {
+      const response = await fetch("https://formsubmit.co/ajax/enquiry@deeprootsystems.in", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
@@ -50,11 +62,11 @@ export function ContactForm() {
         setIsSubmitted(true);
         setStep("result");
       } else {
-        alert("Failed to send message. Please try again or email us directly at enquiry@mahvishsadaf.com.");
+        alert("Failed to send message. Please try again or email us directly at enquiry@deeprootsystems.in.");
       }
     } catch (error) {
       console.error("Submission error:", error);
-      alert("Failed to connect to the mail service. Please try again or email us directly at enquiry@mahvishsadaf.com.");
+      alert("Failed to connect to the mail service. Please try again or email us directly at enquiry@deeprootsystems.in.");
     } finally {
       setIsSubmitting(false);
     }
@@ -212,10 +224,10 @@ export function ContactForm() {
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-zinc-100 font-semibold text-md">Diagnosis Initiated</h4>
+                  <h4 className="text-zinc-100 font-semibold text-md">Message received</h4>
                   <PixelMushroom size={16} />
                 </div>
-                <p className="text-xs text-zinc-500">Thank you, {name}. Preparing your direct channel mail client parameters.</p>
+                <p className="text-xs text-zinc-500">Thank you, {name}. We will get back to you shortly.</p>
               </div>
             </div>
 
@@ -225,7 +237,7 @@ export function ContactForm() {
                 <div className="flex items-center justify-between text-[#22c55e] border-b border-[#251b12] pb-2 mb-2">
                   <span className="text-[10px] tracking-wider uppercase flex items-center">
                     <Terminal className="h-3.5 w-3.5 mr-1" />
-                    Draft Architecture Output
+                    Our first take
                   </span>
                   <span className="text-[10px] bg-[#2f2217] text-[#22c55e] px-2 py-0.5 rounded">Targeting: {company || "Independent Operations"}</span>
                 </div>
@@ -255,7 +267,7 @@ export function ContactForm() {
                   )}
 
                   <p className="pt-2 text-zinc-500 text-[11px] border-t border-[#14321a] font-sans">
-                    * This system blueprint represents our conceptual strategy. Our lead systems architect has been alerted and will send a specific calendar scheduling link directly to <span className="text-[#22c55e] font-mono">{email}</span>.
+                    * This is an early suggestion based on what you shared. We will reply to <span className="text-[#22c55e] font-mono">{email}</span> to set up a call.
                   </p>
                 </div>
               </div>
@@ -275,7 +287,7 @@ export function ContactForm() {
                     setStep("form");
                   }}
                 >
-                  Configure a new scenario
+                  Send another message
                   <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
                 </Button>
               </div>

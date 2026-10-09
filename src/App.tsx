@@ -20,12 +20,10 @@ const PROJECTS = [
   {
     id: "solar_crm",
     title: "SolarFlow™",
-    category: "The Custom Solar Operations CRM",
-    description: "Built to upgrade solar installers from error-prone Google Sheets to a robust, accountable database. Powered by React and Supabase, SolarFlow provides a real-time financial dashboard, a visual 11-stage project pipeline, and an immutable activity audit log. It coordinates agents and admins to eliminate double data entry and collect receivables faster.",
-    badges: ["React Vite", "Supabase", "Financial Ledger", "Audit Logging", "Role-Based Access"],
+    category: "Solar EPC Operations Platform",
+    description: "End-to-end operations for rooftop solar installers: quotations, a 14-stage project pipeline from lead to subsidy, Jansamarth loan and PM Surya Ghar subsidy tracking, godown inventory and delivery trips, plus dedicated portals for channel partners, installation vendors and stamp makers.",
+    badges: ["React", "Supabase", "Row-Level Security", "Inventory & BOM", "Audit Logging"],
     gridSpan: "md:col-span-2",
-    hasDemo: true,
-    demoUrl: "https://solarflow.mahvishsadaf.com"
   },
   {
     id: "company_brain",
@@ -34,8 +32,6 @@ const PROJECTS = [
     description: "We built a private, highly secure intelligence for a firm that needed instant answers from 10,000+ pages of internal policies and past contracts. Employees ask questions in plain English; the 'Brain' answers instantly. 100% of the data stays strictly inside the company walls.",
     badges: ["Local Llama", "Pinecone DB", "LangChain", "FastAPI"],
     gridSpan: "md:col-span-1",
-    hasDemo: false,
-    demoUrl: null
   },
   {
     id: "invoice_ocr",
@@ -44,8 +40,6 @@ const PROJECTS = [
     description: "A secure, end-to-end document processing pipeline. Google Apps Script monitors Gmail for PDF invoices, stores them in Drive, and forwards them to a Render-hosted FastAPI service. The service converts PDFs to Markdown and extracts structured accounting data via Groq AI, automatically logging rows into Google Sheets.",
     badges: ["FastAPI", "Groq AI", "PyMuPDF", "Google Sheets API", "Apps Script"],
     gridSpan: "md:col-span-3",
-    hasDemo: true,
-    demoUrl: "https://invoice-automater.onrender.com"
   }
 ];
 
@@ -113,6 +107,7 @@ export default function App() {
   const [activeTab, setActiveTab] = React.useState("work");
   const [currentView, setCurrentView] = React.useState<"home" | "blogs" | "miniapps" | "serious-projects">("home");
   const [selectedProjectId, setSelectedProjectId] = React.useState<string>("solar_crm");
+  const [demoPrefill, setDemoPrefill] = React.useState<string>("");
 
   // Reset scroll on view change
   React.useEffect(() => {
@@ -131,6 +126,12 @@ export default function App() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Send visitors who want a demo to the contact form, with the product pre-filled
+  const requestDemo = (projectTitle: string) => {
+    setDemoPrefill(`I'd like a demo of ${projectTitle.replace("™", "")}.`);
+    scrollTo("contact");
+  };
 
   // Smooth scroll handler
   const scrollTo = (id: string) => {
@@ -169,7 +170,6 @@ export default function App() {
             </div>
             <span className="text-sm font-semibold tracking-wide text-zinc-200 hover:text-white hover:text-shadow-sm transition-all flex items-center gap-1.5">
               <span>Deeproot Systems</span>
-              <span className="text-[9px] font-mono bg-[#14321a] px-1.5 py-0.5 text-[#22c55e] border border-[#22c55e]/20 rounded">v1.2</span>
             </span>
           </div>
 
@@ -215,7 +215,7 @@ export default function App() {
               className="border-[#14321a] hover:border-[#22c55e] text-xs text-[#edfcf1] hover:text-white"
               onClick={() => scrollTo("contact")}
             >
-              Start Diagnostic
+              Book a Demo
             </Button>
           </div>
 
@@ -276,7 +276,7 @@ export default function App() {
                 className="w-full mt-2"
                 onClick={() => scrollTo("contact")}
               >
-                Start Diagnostic
+                Book a Demo
               </Button>
             </motion.div>
           )}
@@ -310,10 +310,10 @@ export default function App() {
                   </div>
 
                   <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-zinc-100 max-w-4xl mx-auto leading-[1.12]">
-                    {"We build the engines that run your operations.".split(" ").map((word, i) => (
+                    {"We build the engines that run your operations.".split(" ").map((word, i, words) => (
+                      <React.Fragment key={word + "-" + i}>
                       <motion.span 
-                        key={word + "-" + i} 
-                        className="inline-block mr-3 sm:mr-4 last:mr-0 text-white"
+                        className="inline-block text-white"
                         variants={{
                           hidden: { opacity: 0, y: 15 },
                           visible: { opacity: 1, y: 0, transition: { type: "spring", damping: 16, stiffness: 180, delay: i * 0.05 } }
@@ -321,6 +321,8 @@ export default function App() {
                       >
                         {word}
                       </motion.span>
+                      {i < words.length - 1 ? " " : null}
+                      </React.Fragment>
                     ))}
                   </h1>
 
@@ -390,7 +392,7 @@ export default function App() {
                     <PixelMushroom size={20} className="align-middle" />
                   </h2>
                   <p className="text-sm text-zinc-400">
-                    A look at the functional operational systems we have designed, architected, and fully deployed directly to client infrastructure. Click Detail to read full case specs.
+                    Systems we have designed and built for real operations. Open any project for the full breakdown, or ask us for a live walkthrough.
                   </p>
                 </div>
 
@@ -415,9 +417,8 @@ export default function App() {
 
                         <div className="space-y-4">
                           {/* Sub-header details */}
-                          <div className="flex items-center justify-between text-xs font-mono text-zinc-500">
-                            <span>{proj.category}</span>
-                            <span>[DP_SYS_{proj.id.toUpperCase()}]</span>
+                          <div className="text-xs font-mono text-green-500/80 uppercase tracking-wider">
+                            {proj.category}
                           </div>
 
                           {/* Title */}
@@ -426,7 +427,6 @@ export default function App() {
                               <CardTitle className="text-md font-semibold text-zinc-100 group-hover:text-white transition-colors">
                                 {proj.title}
                               </CardTitle>
-                              {proj.hasDemo && <Sparkles className="h-3.5 w-3.5 text-white/80 animate-pulse ml-1" />}
                             </div>
                             <CardDescription className="text-sm text-zinc-400 leading-relaxed max-w-2xl min-h-[40px]">
                               {proj.description}
@@ -436,20 +436,15 @@ export default function App() {
                         {/* Footer region with live demo buttons */}
                         <div className="mt-8 pt-4 border-t border-[#14321a]/60 flex flex-col sm:flex-row sm:items-center sm:justify-end gap-4">
                           <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-                            {proj.hasDemo && proj.demoUrl && (
-                              <Button 
-                                variant="default" 
-                                size="sm" 
-                                className="w-full sm:w-auto h-8 text-xs px-3 shadow-[0_0_15px_rgba(34,197,94,0.3)] hover:shadow-[0_0_22px_rgba(34,197,94,0.5)] border border-[#a7f3d0] font-bold"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  window.open(proj.demoUrl, "_blank");
-                                }}
-                              >
-                                Demo
-                                <ArrowUpRight className="h-3.5 w-3.5 ml-1" />
-                              </Button>
-                            )}
+                            <Button 
+                              variant="default" 
+                              size="sm" 
+                              className="w-full sm:w-auto h-8 text-xs px-3 font-semibold cursor-pointer"
+                              onClick={() => requestDemo(proj.title)}
+                            >
+                              Request a Demo
+                              <ArrowRight className="h-3.5 w-3.5 ml-1" />
+                            </Button>
                             <Button 
                               variant="outline" 
                               size="sm" 
@@ -459,7 +454,7 @@ export default function App() {
                                 setCurrentView("serious-projects");
                               }}
                             >
-                              View Detail
+                              View Details
                             </Button>
                           </div>
                         </div>
@@ -800,20 +795,20 @@ export default function App() {
 
                 {/* Diagnostic interactive form */}
                 <div className="pt-4">
-                  <ContactForm />
+                  <ContactForm prefillMessage={demoPrefill} />
                 </div>
 
                 {/* Direct secure email fallback */}
                 <div className="text-center pt-8 space-y-3">
                   <p className="text-xs text-zinc-500 font-mono">
-                    Direct channel secure link fallback
+                    Prefer email? Write to us directly
                   </p>
                   <a 
-                    href="mailto:enquiry@mahvishsadaf.com" 
+                    href="mailto:enquiry@deeprootsystems.in" 
                     className="inline-flex items-center space-x-2 text-zinc-300 hover:text-white transition-all border border-zinc-900 bg-zinc-950/50 hover:bg-zinc-900/40 rounded-full px-4.5 py-2 font-mono text-xs shadow-md"
                   >
                     <Mail className="h-3.5 w-3.5 text-zinc-400" />
-                    <span>enquiry@mahvishsadaf.com</span>
+                    <span>enquiry@deeprootsystems.in</span>
                     <ArrowUpRight className="h-3.5 w-3.5 text-zinc-500" />
                   </a>
                 </div>
@@ -826,11 +821,11 @@ export default function App() {
           <section className="relative px-4 sm:px-6 lg:px-8 py-24 max-w-7xl mx-auto min-h-[85vh]">
             {currentView === "blogs" && <BlogsView />}
             {currentView === "miniapps" && <MiniAppsView />}
-            {currentView === "serious-projects" && <SeriousProjectsView initialProjectId={selectedProjectId} />}
+            {currentView === "serious-projects" && <SeriousProjectsView initialProjectId={selectedProjectId} onRequestDemo={requestDemo} />}
             
             {/* Direct secure email enquiry bar inside all subpage layouts */}
             <div className="border-t border-zinc-900 mt-20 pt-12 text-center space-y-4">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block">DEPLOYMENT ENQUIRY CHANNELS</span>
+              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block">Questions? Get in touch</span>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Button
                   variant="outline"
@@ -842,11 +837,11 @@ export default function App() {
                   Back to Homepage
                 </Button>
                 <a 
-                  href="mailto:enquiry@mahvishsadaf.com" 
+                  href="mailto:enquiry@deeprootsystems.in" 
                   className="inline-flex items-center space-x-2 text-zinc-300 hover:text-white transition-all border border-zinc-900 bg-zinc-950/50 hover:bg-zinc-900/40 rounded-full px-4.5 py-2 font-mono text-xs shadow-md h-9"
                 >
                   <Mail className="h-3.5 w-3.5 text-zinc-450" />
-                  <span>enquiry@mahvishsadaf.com</span>
+                  <span>enquiry@deeprootsystems.in</span>
                   <ArrowUpRight className="h-3.5 w-3.5 text-zinc-600" />
                 </a>
               </div>
@@ -860,10 +855,10 @@ export default function App() {
       <footer className="bg-zinc-950 border-t border-zinc-900 py-12 px-4 text-center text-xs text-zinc-600 relative z-10">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <p>© {new Date().getFullYear()} Deeproot Systems. All rights reserved.</p>
-          <div className="flex items-center space-x-4 text-zinc-600 font-mono text-[10px]">
-            <span>DP_INFRA_STABLE</span>
+          <div className="flex items-center space-x-3 text-zinc-500">
+            <span>Hyderabad, India</span>
             <span>•</span>
-            <span>SECURE EDGE TLS</span>
+            <a href="mailto:enquiry@deeprootsystems.in" className="hover:text-zinc-300 transition-colors">enquiry@deeprootsystems.in</a>
           </div>
         </div>
       </footer>
