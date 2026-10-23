@@ -5,6 +5,7 @@ import {
   PenLine, MessagesSquare, ListChecks, Calculator, Receipt, BadgeCheck, ShoppingCart, Wallet,
   Stamp, SunMedium, Palette, ToggleRight, ListOrdered, Rows3, Compass, Hammer, Megaphone, Handshake,
   PhoneCall, Wrench, LifeBuoy, TrendingUp, BellRing, LayoutDashboard, CloudUpload,
+  Infinity, SlidersHorizontal, UserX, Globe, HardDrive,
 } from "lucide-react";
 
 export const SOLARFLOW_DEMO_URL = "https://solarflow.deeprootsystems.in";
@@ -21,7 +22,7 @@ export const GENERIC_VS_BUILT = {
     "Your stages, your words, your approval steps",
     "The software follows the way your team already works",
     "Only the fields that matter, in the order you fill them",
-    "A one-time fee or a flat monthly fee, not per user",
+    "A one-time fee or a flat yearly fee, not per user",
     "A separate portal for each partner, showing only their work",
   ],
 };
@@ -29,7 +30,7 @@ export const GENERIC_VS_BUILT = {
 export const SOLARFLOW_STATS = [
   { value: "14", label: "stages from lead to subsidy" },
   { value: "9", label: "user roles with their own access" },
-  { value: "90+", label: "people using it every day" },
+  { value: "2 AM", label: "automatic backup, every day" },
   { value: "3 to 5", label: "working days to launch a new copy" },
 ];
 
@@ -96,7 +97,7 @@ export const GOOD_FEATURES = [
   { icon: Users, title: "Role-based access", desc: "Each person sees only what their job needs." },
   { icon: History, title: "Who changed what", desc: "A full history on every record, with names and dates." },
   { icon: MessageCircle, title: "WhatsApp updates", desc: "Send quotes and status updates where customers already are." },
-  { icon: ScanBarcode, title: "Barcode scanning", desc: "Capture serial numbers from a phone camera." },
+  { icon: ScanBarcode, title: "Scan serial numbers", desc: "Record product serial numbers just by scanning them with your phone." },
   { icon: FileSpreadsheet, title: "Excel & Sheets export", desc: "Your data out in one click, whenever you want it." },
   { icon: DatabaseBackup, title: "Daily backups", desc: "Copies taken automatically, every day." },
   { icon: ArchiveRestore, title: "Trash & restore", desc: "Nothing is lost to a wrong click." },
@@ -173,12 +174,14 @@ export const SETUPS = [
   {
     id: "links",
     icon: Link2,
-    tag: "Secure sharing",
-    title: "Send Documents by Link",
-    pitch: "Quotations, agreements and invoices sent as a link instead of a heavy PDF. The customer taps it and it opens on any phone.",
+    tag: "Send & sign",
+    title: "Send & Sign Documents by Link",
+    pitch: "Get documents signed by your clients just by sharing a link. Quotations, agreements and invoices open on any phone, and they sign right there. No printing, scanning or couriering.",
     points: [
-      "View, download or accept in one tap",
-      "See when a document was opened",
+      "Customers sign with a finger on their phone, or type their name",
+      "Signed copy saved automatically, with date and time",
+      "Several people can sign the same document, in order",
+      "See when a document was opened and when it was signed",
       "Links that expire or can be switched off",
       "Shareable forms to collect customer details and files",
     ],
@@ -188,10 +191,12 @@ export const SETUPS = [
 export const EXTRA_SETUPS = [
   { icon: MessageCircle, title: "WhatsApp alerts", desc: "Order, payment and status messages sent automatically." },
   { icon: LayoutDashboard, title: "Owner dashboard", desc: "Sales, collections and pending work on one screen." },
+  { icon: ScanBarcode, title: "Serial number scanning", desc: "Scan product barcodes with a phone camera. No typing, no mistakes." },
   { icon: BellRing, title: "Reminders", desc: "Follow-ups and due dates that never slip." },
   { icon: CloudUpload, title: "Automatic backups", desc: "Your data copied to your own Drive every day." },
   { icon: FileSpreadsheet, title: "Sheets that update themselves", desc: "Live reports instead of copy-paste." },
   { icon: Stamp, title: "Branded documents", desc: "Letterhead and numbering on everything you send." },
+  { icon: FileSpreadsheet, title: "Excel import", desc: "Your existing spreadsheets moved in on day one." },
 ];
 
 export const SUPPORT_POINTS = [
@@ -203,23 +208,25 @@ export const SUPPORT_POINTS = [
 
 export const PLANS = [
   {
-    tag: "Buy & Own",
-    title: "One-time project",
-    fit: "For businesses that want to own the system outright.",
+    tag: "Pay once",
+    title: "Perpetual licence",
+    fit: "Buy it once and use it for as long as you like.",
     points: [
-      "A single fee to build and install the system",
-      "You own the code and the data 100%",
-      "30 days of support after launch, with optional monthly maintenance",
+      "A single one-time fee, no renewals",
+      "Your data is always yours, with daily backups",
+      "30 days of support after launch included",
+      "Optional maintenance charge for updates and support after that",
     ],
   },
   {
-    tag: "Subscription",
-    title: "Managed for you",
-    fit: "For growing teams that want no large upfront cost.",
+    tag: "Pay yearly",
+    title: "Yearly subscription",
+    fit: "No large upfront cost. Pay once a year instead.",
     points: [
-      "A predictable monthly fee, not per user",
-      "We host, run and maintain everything",
-      "The same custom system, paid as a monthly expense",
+      "A predictable yearly fee, not per user",
+      "Hosting, updates and maintenance included",
+      "The same custom system as the perpetual licence",
+      "Your data is always yours, with daily backups",
     ],
   },
 ];
@@ -237,12 +244,16 @@ export const VENTURE_STEPS = [
   { icon: Handshake, title: "You earn from every sale", desc: "A share based on your contribution, agreed in the contract." },
 ];
 
-// Short "why us" points shown under the hero
+// What every system comes with, shown under the hero
 export const HIGHLIGHTS = [
-  { value: "90+", label: "people use our software every day" },
-  { value: "Stable", label: "running in production, daily backups" },
-  { value: "1 tool", label: "is all you need to get started" },
-  { value: "3 to 5 days", label: "to launch a ready product" },
+  { icon: Infinity, title: "Perpetual licence", desc: "Pay once, use it for as long as you like." },
+  { icon: SlidersHorizontal, title: "Built to your exact needs", desc: "Your stages, fields, documents and words." },
+  { icon: UserX, title: "No per-user fees", desc: "Add your whole team without the bill growing." },
+  { icon: DatabaseBackup, title: "Backed up daily at 2 AM", desc: "Automatic copies of your data, every night." },
+  { icon: Globe, title: "On your own web address", desc: "Hosted at yourcompany.in, not someone else's domain." },
+  { icon: HardDrive, title: "Your choice of file storage", desc: "Google Drive (personal or Workspace) or our secure storage." },
+  { icon: Users, title: "Multi-role access", desc: "Each user sees only what their job needs." },
+  { icon: Wrench, title: "Start with one tool", desc: "Begin small and add more as you grow." },
 ];
 
 // Client quotes. Only entries with approved: true are shown, and the section stays hidden until there is one.
@@ -254,5 +265,128 @@ export const TESTIMONIALS: { quote: string; name: string; role: string; approved
     name: "",
     role: "",
     approved: false,
+  },
+];
+
+// Full SolarFlow feature list, grouped. Taken from the demo and client builds.
+export const SOLARFLOW_ALL_FEATURES: { group: string; items: [string, string][] }[] = [
+  {
+    group: "Pipeline & customers",
+    items: [
+      ["14-stage pipeline", "Leads to Final Review, plus Completed and Lost Project"],
+      ["Live stage counts", "Grouped sidebar showing how many customers sit in each stage"],
+      ["Quick add lead", "Just a name and phone number to start, everything else optional"],
+      ["Quote to lead", "Convert an approved quotation into a customer without retyping"],
+      ["Automatic system size", "Capacity worked out from panel wattage and count"],
+      ["Save & Move", "Each stage is a tab; save and move to the next in one click"],
+      ["Stage essentials", "Only one or two required fields per stage, with a list of what is missing"],
+      ["Search & filters", "Search everywhere, filter by partner, dealer, year and month"],
+      ["Lost & resume", "Pause a project with a reason and follow-up date, resume where it stopped"],
+      ["Locked when complete", "Finished records are frozen; an admin can unlock one if needed"],
+      ["Customer timeline", "Dated history plus internal staff-only notes"],
+      ["Stage remarks & hold reasons", "Notes against the current stage and why procurement is on hold"],
+      ["Auto file numbers", "Every new customer gets a file number"],
+      ["Red flags", "Mark customers that need a payment review"],
+    ],
+  },
+  {
+    group: "Sales & quotations",
+    items: [
+      ["Quotation maker", "Three brand or price options in one proposal, with discount, subsidy and GST"],
+      ["Multi-page proposal PDF", "Savings vs EMI, breakeven, returns, subsidy explainer and terms"],
+      ["Loan figures in quotes", "Down payment, lender, interest, tenure, tariff and monthly units"],
+      ["Quotation ledger", "Search, preview, convert, mark lost with a reason, or reopen"],
+      ["Revisions", "R1, R2 versions, locked after download"],
+      ["Draft recovery", "Unsaved quotation edits can be restored"],
+      ["Sign by link", "Customers view and accept the proposal with a signature; links expire"],
+    ],
+  },
+  {
+    group: "Loans & subsidy",
+    items: [
+      ["Jansamarth loan stage", "Application number, bank, branch and feasibility files"],
+      ["Feasibility report PDF", "Generated from the loan tab, with missing fields flagged"],
+      ["Loan tracking", "Inprocess, sanctioned, 1st and 2nd payment, received, with dated history"],
+      ["Cash payments", "Amounts, dates and payment method"],
+      ["PM Surya Ghar subsidy tracking", "Inprocess, redeemed, approved, received, with dated history"],
+      ["Registration details", "Feasibility number, acknowledgement and subsidy token photo"],
+    ],
+  },
+  {
+    group: "Documents",
+    items: [
+      ["Customer documents", "Aadhaar, PAN, light bill, geo-tag photo, bank details and more"],
+      ["Send back with a remark", "Return a wrong file to the partner who uploaded it"],
+      ["Document checklists", "Tick documents off as received, without uploading"],
+      ["Crop & rotate", "Fix photos before they are uploaded"],
+      ["PM Surya Ghar agreement", "4-page consumer–vendor agreement with stamp upload, ready to print"],
+      ["Google Drive link", "One-click open of each customer's Drive folder"],
+      ["Download all as ZIP", "Every document for a customer in one download"],
+    ],
+  },
+  {
+    group: "Inventory & delivery",
+    items: [
+      ["Bill of materials", "Roof and shed templates, editable per customer, with a loaded tick per line"],
+      ["Loading checklist print", "Two-page material and equipment loading checklist"],
+      ["Serial number scanning", "Scan panel and inverter serials with a phone, or paste a list"],
+      ["Material order details", "Roof or shed, invoice value, cable lengths and structure heights"],
+      ["Delivery batches", "Several customers on one truck, with driver, vehicle and stop order"],
+      ["Gate pass & challan", "Printable manifest with security gate and signature blocks"],
+      ["Godown inventory", "Receive and issue stock, reorder levels and replaced materials"],
+      ["Automatic stock deduction", "Stock deducted once on delivery; short stock blocks the delivery"],
+      ["Reserved stock", "Saved BOMs hold material until the truck is loaded"],
+      ["Daily godown report", "Opening, incoming, outgoing and closing stock for any day"],
+    ],
+  },
+  {
+    group: "Installation & field service",
+    items: [
+      ["Installer assignment", "Up to three installers per job, with a warning if one is on leave"],
+      ["Installation tracking", "Every installation listed by status"],
+      ["Geo-tag, meter & inspection", "Dates, photos and notes for each approval step"],
+      ["Stamp maker jobs", "Send agreements for stamping and get the file back on the customer"],
+      ["Installer payments", "Capacity, rate, payout month, paid and unpaid totals"],
+      ["Installer payout view", "Installers see what they are owed and what is paid"],
+      ["Job emails", "Vendors get an email when a job is assigned"],
+      ["Service complaints", "Technicians claim jobs and close them with the customer's code"],
+    ],
+  },
+  {
+    group: "Portals & roles",
+    items: [
+      ["Channel partner & dealer portal", "Add leads, use quotations and see only their own customers"],
+      ["Partner offices", "Each office sees its own leads and its dealers' leads"],
+      ["Office managers", "A manager login for each partner office"],
+      ["Installation team portal", "Assigned jobs, driver contact, BOM, geo-tag upload and payouts"],
+      ["Stamp maker portal", "Request queue, file upload and a monthly record"],
+      ["Role-based access", "Admin, office, partners, dealers, installers, stamp makers and technicians"],
+      ["Database-level security", "Each role can only ever read its own records"],
+      ["Password recovery", "Set, reset and recover passwords by email"],
+    ],
+  },
+  {
+    group: "Team & reports",
+    items: [
+      ["Shared calendar", "Site visits, meetings and leave, with installations and trucks added automatically"],
+      ["Attendance & leave", "Check-in, leave requests and admin approval"],
+      ["Team chat", "Message everyone, a group or one person"],
+      ["Business dashboard", "Projects by stage, today's work, installed capacity and brand usage"],
+      ["Excel & CSV exports", "Registrations and vendor payments in one click"],
+      ["Directories", "Partners, dealers, drivers, teams, staff, brands and top performers"],
+      ["User management", "Create, edit, deactivate and reset users; offices manage their own staff"],
+      ["Customer import", "Bring in existing Excel or CSV sheets, even with Hinglish headers"],
+    ],
+  },
+  {
+    group: "Data safety",
+    items: [
+      ["Activity log", "Who changed what and when, including every stage move"],
+      ["Trash & restore", "Deleted customers can be brought back; only admins delete for good"],
+      ["Edit-conflict warning", "Shows your edit next to a colleague's when both change the same field"],
+      ["Offline warning", "A banner when the internet connection drops"],
+      ["Update prompt", "Users are told to reload when a new version is out"],
+      ["Daily backups", "The database is backed up automatically every day"],
+    ],
   },
 ];

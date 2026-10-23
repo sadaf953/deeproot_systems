@@ -2,7 +2,7 @@ import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Menu, X, CheckCircle2, ArrowRight, Mail, ArrowUpRight, ArrowLeft, XCircle, Sun, Wrench,
-  FileStack, Percent, Clock, Sparkles,
+  FileStack, Percent, Clock, Sparkles, Globe,
 } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { Card, CardTitle, CardDescription } from "@/src/components/ui/card";
@@ -14,10 +14,11 @@ import { SeriousProjectsView } from "@/src/components/SeriousProjectsView";
 import {
   SOLARFLOW_DEMO_URL, GENERIC_VS_BUILT, SOLARFLOW_STATS, SOLARFLOW_FEATURES, CLIENT_BUILDS,
   CUSTOMIZATION_STEPS, GOOD_FEATURES, TOOLS, DOC_EXAMPLES, DOC_FLOW, SETUPS, EXTRA_SETUPS,
-  SUPPORT_POINTS, PLANS, VENTURE_STEPS, VENTURE_BENEFITS, HIGHLIGHTS, TESTIMONIALS,
+  SUPPORT_POINTS, PLANS, VENTURE_STEPS, VENTURE_BENEFITS, HIGHLIGHTS, TESTIMONIALS, SOLARFLOW_ALL_FEATURES,
 } from "@/src/homeContent";
 
 const approvedTestimonials = TESTIMONIALS.filter((t) => t.approved);
+const solarflowFeatureCount = SOLARFLOW_ALL_FEATURES.reduce((n, g) => n + g.items.length, 0);
 
 type View = "home" | "blogs" | "miniapps" | "serious-projects";
 
@@ -33,7 +34,7 @@ const QUICK_LINKS = [
   { target: "solarflow", icon: Sun, title: "SolarFlow™", desc: "Operations platform for solar installers" },
   { target: "tools", icon: Wrench, title: "Ready-made business tools", desc: "Quotes, GST, receipts, payslips" },
   { target: "documents", icon: FileStack, title: "Document automation", desc: "Any repeat document, in seconds" },
-  { target: "services", icon: Sparkles, title: "One-time setups", desc: "Email, Shopify, OCR, document links" },
+  { target: "services", icon: Sparkles, title: "One-time setups", desc: "Email, Shopify, OCR, sign by link" },
   { target: "build-with-us", icon: Percent, title: "Royalty program", desc: "Lower price, plus a share of future sales" },
 ];
 
@@ -101,6 +102,7 @@ export default function App() {
   const [currentView, setCurrentView] = React.useState<View>("home");
   const [selectedProjectId, setSelectedProjectId] = React.useState<string>("solar_crm");
   const [demoPrefill, setDemoPrefill] = React.useState<string>("");
+  const [showAllFeatures, setShowAllFeatures] = React.useState(false);
 
   // Reset scroll on view change
   React.useEffect(() => {
@@ -271,18 +273,18 @@ export default function App() {
                   <div className="inline-flex items-center space-x-2 bg-[#14321a]/40 border border-[#14321a] rounded-full px-3.5 py-1.5">
                     <span className="flex h-1.5 w-1.5 rounded-full bg-[#22c55e] shadow-[0_0_8px_#22c55e] animate-pulse" />
                     <span className="text-xs font-medium text-green-300">
-                      Business software, built in Hyderabad
+                      Serving clients across India and abroad
                     </span>
                   </div>
 
                   <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-[1.08]">
-                    Software shaped around<br className="hidden sm:block" />{" "}
-                    <span className="text-[#22c55e]">your business.</span>
+                    We build the engines that{" "}
+                    <span className="text-[#22c55e]">run your operations.</span>
                   </h1>
 
                   <p className="text-base sm:text-lg text-zinc-400 max-w-xl leading-relaxed">
-                    Not a generic CRM you have to bend to. We build systems that follow how your team already works,
-                    automate the documents you make every day, and set up the tools that save you hours each week.
+                    Systems built from the roots of your business. Not a generic CRM you have to bend to, but software,
+                    tools and automation that grow out of how your team already works.
                   </p>
 
                   <div className="flex flex-col sm:flex-row gap-3">
@@ -301,11 +303,14 @@ export default function App() {
                       Talk to Us
                     </Button>
                   </div>
+                  <p className="text-xs text-zinc-500 -mt-3">
+                    SolarFlow is an example of a CRM we built specifically for solar installers.
+                  </p>
 
                   <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-4 text-xs text-zinc-500">
-                    <span className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-[#22c55e]" />90+ people use it every day</span>
+                    <span className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-[#22c55e]" />Pay once, use forever</span>
                     <span className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-[#22c55e]" />No per-user fees</span>
-                    <span className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-[#22c55e]" />You own your data</span>
+                    <span className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-[#22c55e]" />Backed up daily</span>
                   </div>
                 </motion.div>
 
@@ -347,15 +352,26 @@ export default function App() {
             </section>
 
 
-            {/* HIGHLIGHTS STRIP */}
-            <section className="px-4 sm:px-6 lg:px-8 border-t border-zinc-900/60 bg-zinc-900/20">
-              <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 divide-zinc-900 lg:divide-x">
-                {HIGHLIGHTS.map((item) => (
-                  <div key={item.label} className="py-8 px-2 lg:px-8 text-center lg:text-left">
-                    <div className="font-display text-2xl sm:text-3xl font-bold text-white">{item.value}</div>
-                    <div className="text-xs text-zinc-400 mt-1">{item.label}</div>
-                  </div>
-                ))}
+            {/* HIGHLIGHTS: WHAT EVERY SYSTEM COMES WITH */}
+            <section className="px-4 sm:px-6 lg:px-8 py-14 border-t border-zinc-900/60 bg-zinc-900/20">
+              <div className="max-w-7xl mx-auto space-y-8">
+                <h2 className="text-sm font-semibold text-[#22c55e]">Every system comes with</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-7">
+                  {HIGHLIGHTS.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <div key={item.title} className="flex items-start gap-3.5">
+                        <div className="h-9 w-9 shrink-0 rounded-lg bg-[#14321a]/50 border border-[#14321a] flex items-center justify-center">
+                          <Icon className="h-4.5 w-4.5 text-[#22c55e]" />
+                        </div>
+                        <div>
+                          <div className="text-sm font-semibold text-white">{item.title}</div>
+                          <div className="text-xs text-zinc-400 leading-relaxed mt-0.5">{item.desc}</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </section>
 
@@ -403,11 +419,12 @@ export default function App() {
 
                 <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
                   <div className="lg:col-span-5 space-y-6">
-                    <div className="text-sm font-semibold text-[#22c55e]">Our flagship product</div>
+                    <div className="text-sm font-semibold text-[#22c55e]">Example: a CRM built for solar</div>
                     <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-white">SolarFlow™</h2>
                     <p className="text-sm sm:text-base text-zinc-300 leading-relaxed">
-                      The operations system for rooftop solar installers. Quotations, loans, PM Surya Ghar subsidies,
-                      godown stock, delivery trips and partner portals in one place, instead of spread across Google Sheets and WhatsApp.
+                      An example of what we build: a CRM made specifically for rooftop solar installers. Quotations, loans,
+                      PM Surya Ghar subsidies, godown stock, delivery trips and partner portals in one place, instead of spread
+                      across Google Sheets and WhatsApp. We build the same way for any industry.
                     </p>
 
                     <div className="grid grid-cols-2 gap-3">
@@ -431,13 +448,53 @@ export default function App() {
                       </Button>
                     </div>
                     <p className="text-xs text-zinc-500">
-                      Pick any of 8 roles in the demo, from admin to vendor. No password, and your own sandbox with sample data.
+                      Need a demo login?{" "}
+                      <button onClick={() => enquire("I'd like the login for the SolarFlow demo.")} className="text-[#22c55e] hover:underline cursor-pointer">
+                        Contact us to get the password.
+                      </button>
                     </p>
                   </div>
 
                   <div className="lg:col-span-7">
                     <IconGrid items={SOLARFLOW_FEATURES} cols="" />
                   </div>
+                </div>
+              </div>
+
+              {/* Full SolarFlow feature list */}
+              <div className="space-y-8">
+                <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+                  <div className="max-w-2xl space-y-3">
+                    <h3 className="font-display text-2xl sm:text-3xl font-bold text-white">Everything in SolarFlow.</h3>
+                    <p className="text-sm sm:text-base text-zinc-400 leading-relaxed">
+                      {solarflowFeatureCount} features across the whole job, from first enquiry to subsidy received. Each company switches on only what it needs.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
+                  {(showAllFeatures ? SOLARFLOW_ALL_FEATURES : SOLARFLOW_ALL_FEATURES.slice(0, 3)).map((group) => (
+                    <div key={group.group}>
+                      <div className="text-sm font-semibold text-[#22c55e] pb-3 border-b border-zinc-900">{group.group}</div>
+                      <ul className="mt-4 space-y-3">
+                        {group.items.map(([name, desc]) => (
+                          <li key={name} className="flex items-start gap-2.5">
+                            <CheckCircle2 className="h-3.5 w-3.5 text-[#22c55e] shrink-0 mt-1" />
+                            <div>
+                              <span className="text-sm font-medium text-zinc-100">{name}</span>
+                              <span className="block text-xs text-zinc-500 leading-relaxed">{desc}</span>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex justify-center">
+                  <Button variant="outline" className="hover:border-[#22c55e]" onClick={() => setShowAllFeatures(!showAllFeatures)}>
+                    {showAllFeatures ? "Show fewer features" : `Show all ${solarflowFeatureCount} features`}
+                  </Button>
                 </div>
               </div>
 
@@ -563,7 +620,7 @@ export default function App() {
                     <Clock className="h-4 w-4" />
                     <span className="text-xs font-medium font-bold">Documents we automate</span>
                   </div>
-                  <p className="text-sm text-zinc-300">Paper coming in can be read with OCR, and documents going out can be sent as a link.</p>
+                  <p className="text-sm text-zinc-300">Paper coming in can be read with OCR, and documents going out can be sent and signed by link.</p>
                 </div>
                 <div className="lg:w-2/3 flex flex-wrap gap-2">
                   {DOC_EXAMPLES.map((doc) => (
@@ -648,8 +705,29 @@ export default function App() {
                         </li>
                       ))}
                     </ul>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="mt-8 h-9 w-full sm:w-auto sm:self-start px-4 hover:border-[#22c55e]"
+                      onClick={() => enquire(`I'd like a quote for the ${plan.title.toLowerCase()} option.`)}
+                    >
+                      Get a Quote
+                      <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+                    </Button>
                   </Card>
                 ))}
+              </div>
+
+              {/* Payment methods */}
+              <div className="rounded-2xl border border-zinc-850 bg-zinc-900/30 p-6 flex flex-col md:flex-row md:items-center gap-5 md:gap-10">
+                <div className="flex items-center gap-3 shrink-0">
+                  <Globe className="h-5 w-5 text-[#22c55e]" />
+                  <span className="text-sm font-semibold text-white">Clients in India and abroad</span>
+                </div>
+                <p className="text-sm text-zinc-400 leading-relaxed">
+                  Most of our clients are across India, and international clients are always welcome. Pay however
+                  suits you: bank transfer, UPI and Google Pay, Wise or PayPal.
+                </p>
               </div>
             </Section>
 
@@ -718,7 +796,7 @@ export default function App() {
             {/* CONTACT */}
             <Section id="contact">
               <SectionHeader label="Let's talk" title="Tell us what you need." center>
-                A small, focused team in Hyderabad. Tell us what is slow, broken or manual, and we will tell you honestly if we can help.
+                A small, focused team working with clients across India and internationally. Tell us what is slow, broken or manual, and we will tell you honestly if we can help.
               </SectionHeader>
 
               <ContactForm prefillMessage={demoPrefill} />
@@ -780,8 +858,8 @@ export default function App() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="space-y-2">
             <div className="text-sm font-semibold text-zinc-200">Deeproot Systems</div>
-            <p>Software shaped around your business.</p>
-            <p>Hyderabad, India</p>
+            <p>We build the engines that run your operations.</p>
+            <p>Hyderabad, India. Clients worldwide.</p>
             <a href="mailto:enquiry@deeprootsystems.in" className="hover:text-zinc-300 transition-colors block">enquiry@deeprootsystems.in</a>
           </div>
           <div className="space-y-2">
