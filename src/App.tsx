@@ -1,111 +1,104 @@
 import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { 
-  Menu, X, Cpu, Layers, Workflow, CheckCircle2, Terminal, ArrowRight, Sparkles, 
-  Database, ShieldCheck, Mail, ArrowUpRight, Code, Server, HelpCircle, HardDrive,
-  BookOpen, Calculator, Briefcase, ExternalLink, Lock, FileSpreadsheet, TrendingUp, Users, Settings, ArrowLeft,
-  Globe
+import {
+  Menu, X, CheckCircle2, ArrowRight, Mail, ArrowUpRight, ArrowLeft, XCircle, Sun, Wrench,
+  FileStack, Percent, Clock, Sparkles,
 } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/src/components/ui/card";
-import { Badge } from "@/src/components/ui/badge";
+import { Card, CardTitle, CardDescription } from "@/src/components/ui/card";
 import { ContactForm } from "@/src/components/ContactForm";
 import { PixelMushroom } from "@/src/components/PixelMushroom";
 import { BlogsView } from "@/src/components/BlogsView";
 import { MiniAppsView } from "@/src/components/MiniApps";
 import { SeriousProjectsView } from "@/src/components/SeriousProjectsView";
+import {
+  SOLARFLOW_DEMO_URL, GENERIC_VS_BUILT, SOLARFLOW_STATS, SOLARFLOW_FEATURES, CLIENT_BUILDS,
+  CUSTOMIZATION_STEPS, GOOD_FEATURES, TOOLS, DOC_EXAMPLES, DOC_FLOW, SETUPS, EXTRA_SETUPS,
+  PARTNERSHIP_POINTS, PLANS, VENTURE_STEPS, HIGHLIGHTS, TESTIMONIALS,
+} from "@/src/homeContent";
 
-// Project Definitions
-const PROJECTS = [
-  {
-    id: "solar_crm",
-    title: "SolarFlow™",
-    category: "Solar EPC Operations Platform",
-    description: "End-to-end operations for rooftop solar installers: quotations, a 14-stage project pipeline from lead to subsidy, Jansamarth loan and PM Surya Ghar subsidy tracking, godown inventory and delivery trips, plus dedicated portals for channel partners, installation vendors and stamp makers.",
-    badges: ["React", "Supabase", "Row-Level Security", "Inventory & BOM", "Audit Logging"],
-    gridSpan: "md:col-span-2",
-  },
-  {
-    id: "company_brain",
-    title: "The Secure Company Brain",
-    category: "Private AI Intelligence",
-    description: "We built a private, highly secure intelligence for a firm that needed instant answers from 10,000+ pages of internal policies and past contracts. Employees ask questions in plain English; the 'Brain' answers instantly. 100% of the data stays strictly inside the company walls.",
-    badges: ["Local Llama", "Pinecone DB", "LangChain", "FastAPI"],
-    gridSpan: "md:col-span-1",
-  },
-  {
-    id: "invoice_ocr",
-    title: "Invoice Automater",
-    category: "Automated Data Extraction",
-    description: "A secure, end-to-end document processing pipeline. Google Apps Script monitors Gmail for PDF invoices, stores them in Drive, and forwards them to a Render-hosted FastAPI service. The service converts PDFs to Markdown and extracts structured accounting data via Groq AI, automatically logging rows into Google Sheets.",
-    badges: ["FastAPI", "Groq AI", "PyMuPDF", "Google Sheets API", "Apps Script"],
-    gridSpan: "md:col-span-3",
-  }
+const approvedTestimonials = TESTIMONIALS.filter((t) => t.approved);
+
+type View = "home" | "blogs" | "miniapps" | "serious-projects";
+
+const NAV_LINKS: { label: string; target: string }[] = [
+  { label: "Approach", target: "approach" },
+  { label: "SolarFlow", target: "solarflow" },
+  { label: "Services", target: "services" },
+  { label: "Partnership", target: "partnership" },
+  { label: "Contact", target: "contact" },
 ];
 
-// Tech stack items for marquee
-const STACK_ITEMS = [
-  "Python", "FastAPI", "LangChain", "LangGraph", "RAG", "Pinecone", "FAISS", 
-  "Redis", "PostgreSQL", "Whisper", "Ollama", "Docker", "React", "Vite", 
-  "Selectolax", "n8n", "Supabase", "Pydantic", "AsyncIO"
+const QUICK_LINKS = [
+  { target: "solarflow", icon: Sun, title: "SolarFlow™", desc: "Operations platform for solar installers" },
+  { target: "tools", icon: Wrench, title: "Ready-made business tools", desc: "Quotes, GST, receipts, payslips" },
+  { target: "documents", icon: FileStack, title: "Document automation", desc: "Any repeat document, in seconds" },
+  { target: "services", icon: Sparkles, title: "One-time setups", desc: "Email, Shopify, OCR, document links" },
+  { target: "build-with-us", icon: Percent, title: "Build a product with us", desc: "Earn a share of every sale" },
 ];
 
-// Services definitions
-const SERVICES = [
-  {
-    id: "ops",
-    icon: Cpu,
-    title: "Operations Software",
-    description: "We map your current process, identify exactly what is broken or slow, and build a system around how your business actually works."
-  },
-  {
-    id: "web",
-    icon: Globe,
-    title: "High-Performance Websites & E-commerce",
-    description: "Custom, blazing-fast web sites and tailor-made e-commerce backends designed for high load, frictionless checkouts, and clean data integrations."
-  },
-  {
-    id: "email",
-    icon: Mail,
-    title: "Zero-SaaS Custom Domain Email",
-    description: "Set up secure private custom mail servers on your own domain (@yourdomain.com). Zero vendor lock-in, zero monthly per-user licenses to Google Workspace or Zoho. Completely owned."
-  },
-  {
-    id: "auto",
-    icon: Workflow,
-    title: "Automation Pipelines",
-    description: "Repetitive manual work between your systems gets automated. Data moves, reports generate, and alerts fire without anyone touching it."
-  }
-];
+const fadeUpItem = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { type: "spring", damping: 20, stiffness: 120 } },
+};
 
 const staggerContainer = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
+  visible: { opacity: 1, transition: { staggerChildren: 0.06 } },
 };
 
-const fadeUpItem = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      type: "spring",
-      damping: 20,
-      stiffness: 120,
-    },
-  },
-};
+function SectionHeader({ label, title, children, center = false }: {
+  label: string; title: React.ReactNode; children?: React.ReactNode; center?: boolean;
+}) {
+  return (
+    <div className={`space-y-4 max-w-2xl ${center ? "mx-auto text-center" : ""}`}>
+      <div className="text-sm font-semibold text-[#22c55e]">{label}</div>
+      <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-white leading-tight">{title}</h2>
+      {children && <p className="text-sm sm:text-base text-zinc-400 leading-relaxed">{children}</p>}
+    </div>
+  );
+}
+
+function Section({ id, children, className = "" }: { id?: string; children: React.ReactNode; className?: string }) {
+  return (
+    <section id={id} className={`px-4 sm:px-6 lg:px-8 py-20 sm:py-28 border-t border-zinc-900/60 scroll-mt-16 ${className}`}>
+      <div className="max-w-7xl mx-auto space-y-14">{children}</div>
+    </section>
+  );
+}
+
+// A grid of small icon cards that fade in together
+function IconGrid({ items, cols }: { items: { icon: React.ElementType; title: string; desc: string }[]; cols: string }) {
+  return (
+    <motion.div
+      className={`grid grid-cols-1 sm:grid-cols-2 ${cols} gap-4`}
+      variants={staggerContainer}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-60px" }}
+    >
+      {items.map((item) => {
+        const Icon = item.icon;
+        return (
+          <motion.div
+            key={item.title}
+            variants={fadeUpItem}
+            className="rounded-xl border border-zinc-850 bg-zinc-950/50 p-5 hover:border-[#22c55e]/40 transition-colors"
+          >
+            <Icon className="h-5 w-5 text-[#22c55e]" />
+            <div className="text-sm font-semibold text-zinc-100 mt-3">{item.title}</div>
+            <div className="text-xs text-zinc-400 leading-relaxed mt-1.5">{item.desc}</div>
+          </motion.div>
+        );
+      })}
+    </motion.div>
+  );
+}
 
 export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
-  const [activeTab, setActiveTab] = React.useState("work");
-  const [currentView, setCurrentView] = React.useState<"home" | "blogs" | "miniapps" | "serious-projects">("home");
+  const [currentView, setCurrentView] = React.useState<View>("home");
   const [selectedProjectId, setSelectedProjectId] = React.useState<string>("solar_crm");
   const [demoPrefill, setDemoPrefill] = React.useState<string>("");
 
@@ -114,116 +107,107 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentView]);
 
-  // Handle active class for glassmorphic nav
+  // Solid nav background once the page scrolls
   React.useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Send visitors who want a demo to the contact form, with the product pre-filled
-  const requestDemo = (projectTitle: string) => {
-    setDemoPrefill(`I'd like a demo of ${projectTitle.replace("™", "")}.`);
+  // Smooth scroll to a homepage section, switching back to the homepage first if needed
+  const scrollTo = (id: string) => {
+    setCurrentView("home");
+    setIsMobileMenuOpen(false);
+    setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 150);
+  };
+
+  // Send visitors to the contact form with their interest pre-filled
+  const enquire = (message: string) => {
+    setDemoPrefill(message);
     scrollTo("contact");
   };
 
-  // Smooth scroll handler
-  const scrollTo = (id: string) => {
-    setCurrentView("home");
-    setActiveTab(id);
+  const requestDemo = (projectTitle: string) => {
+    enquire(`I'd like a demo of ${projectTitle.replace("™", "")}.`);
+  };
+
+  const openProject = (id: string) => {
+    setSelectedProjectId(id);
+    setCurrentView("serious-projects");
     setIsMobileMenuOpen(false);
-    setTimeout(() => {
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }, 150);
   };
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 selection:bg-[#22c55e]/20 selection:text-white overflow-hidden relative">
-      
-      {/* Background patterns */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#14321a25_1px,transparent_1px),linear-gradient(to_bottom,#14321a25_1px,transparent_1px)] bg-[size:5rem_5rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_75%,transparent_100%)] pointer-events-none" />
 
-      {/* Sticky blurred Navigation */}
-      <header 
+      {/* Background grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#14321a25_1px,transparent_1px),linear-gradient(to_bottom,#14321a25_1px,transparent_1px)] bg-[size:5rem_5rem] [mask-image:radial-gradient(ellipse_60%_30%_at_50%_0%,#000_75%,transparent_100%)] pointer-events-none" />
+
+      {/* Sticky navigation */}
+      <header
         className={`fixed top-0 inset-x-0 z-40 transition-all duration-300 border-b ${
-          scrolled 
-            ? "bg-zinc-950/80 backdrop-blur-md border-[#14321a]/50 py-3" 
+          scrolled
+            ? "bg-zinc-950/85 backdrop-blur-md border-[#14321a]/50 py-3"
             : "bg-transparent border-transparent py-5"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <div 
-            onClick={() => { setCurrentView("home"); }} 
+          <div
+            onClick={() => scrollTo("hero")}
             className="flex items-center space-x-2.5 cursor-pointer group"
           >
             <div className="h-7 w-7 rounded bg-[#22c55e] flex items-center justify-center p-0.5 group-hover:scale-105 transition-all shadow-[0_0_15px_rgba(34,197,94,0.35)]">
               <PixelMushroom size={18} animate={false} />
             </div>
-            <span className="text-sm font-semibold tracking-wide text-zinc-200 hover:text-white hover:text-shadow-sm transition-all flex items-center gap-1.5">
-              <span>Deeproot Systems</span>
+            <span className="text-sm font-semibold tracking-wide text-zinc-200 group-hover:text-white transition-colors">
+              Deeproot Systems
             </span>
           </div>
 
-          {/* Desktop Nav Actions */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <button 
-              onClick={() => { setCurrentView("home"); setActiveTab("home"); }} 
-              className={`text-xs font-semibold tracking-wider uppercase cursor-pointer hover:text-[#22c55e] transition-colors ${currentView === "home" ? "text-[#22c55e]" : "text-zinc-400"}`}
-            >
-              Home
-            </button>
-            <button 
-              onClick={() => { setCurrentView("serious-projects"); }} 
-              className={`text-xs font-semibold tracking-wider uppercase cursor-pointer hover:text-[#22c55e] transition-colors ${currentView === "serious-projects" ? "text-[#22c55e]" : "text-zinc-400"}`}
+          {/* Desktop nav */}
+          <nav className="hidden lg:flex items-center space-x-6">
+            {NAV_LINKS.map((link) => (
+              <button
+                key={link.target}
+                onClick={() => scrollTo(link.target)}
+                className="text-sm font-medium cursor-pointer hover:text-[#22c55e] text-zinc-400 transition-colors"
+              >
+                {link.label}
+              </button>
+            ))}
+            <button
+              onClick={() => openProject("solar_crm")}
+              className={`text-sm font-medium cursor-pointer hover:text-[#22c55e] transition-colors ${currentView === "serious-projects" ? "text-[#22c55e]" : "text-zinc-400"}`}
             >
               Products
             </button>
-            <button 
-              onClick={() => scrollTo("partnership")} 
-              className="text-xs font-semibold tracking-wider uppercase cursor-pointer hover:text-[#22c55e] text-zinc-400 transition-colors"
-            >
-              Plans
-            </button>
-            <button 
-              onClick={() => { setCurrentView("blogs"); }} 
-              className={`text-xs font-semibold tracking-wider uppercase cursor-pointer hover:text-[#22c55e] transition-colors ${currentView === "blogs" ? "text-[#22c55e]" : "text-zinc-400"}`}
+            <button
+              onClick={() => setCurrentView("blogs")}
+              className={`text-sm font-medium cursor-pointer hover:text-[#22c55e] transition-colors ${currentView === "blogs" ? "text-[#22c55e]" : "text-zinc-400"}`}
             >
               Blogs
             </button>
-            <button 
-              onClick={() => scrollTo("contact")} 
-              className="text-xs font-semibold tracking-wider uppercase cursor-pointer hover:text-[#22c55e] text-zinc-400 transition-colors"
-            >
-              Contact
-            </button>
           </nav>
 
-          {/* Contact Button Desktop */}
-          <div className="hidden md:block">
-            <Button 
-              variant="outline" 
-              size="sm" 
+          <div className="hidden lg:block">
+            <Button
+              variant="outline"
+              size="sm"
               className="border-[#14321a] hover:border-[#22c55e] text-xs text-[#edfcf1] hover:text-white"
               onClick={() => scrollTo("contact")}
             >
-              Book a Demo
+              Book a Call
             </Button>
           </div>
 
           {/* Mobile hamburger toggle */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-1.5 rounded-md border border-zinc-900 bg-zinc-950 text-zinc-400 hover:text-white focus:outline-hidden cursor-pointer"
+              aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -233,599 +217,526 @@ export default function App() {
         {/* Mobile menu panel */}
         <AnimatePresence>
           {isMobileMenuOpen && (
-            <motion.div 
-              className="md:hidden absolute top-full left-0 right-0 border-b border-zinc-900 bg-zinc-950/98 backdrop-blur-lg py-5 px-6 space-y-4 shadow-xl flex flex-col"
+            <motion.div
+              className="lg:hidden absolute top-full left-0 right-0 border-b border-zinc-900 bg-zinc-950/98 backdrop-blur-lg py-5 px-6 space-y-4 shadow-xl flex flex-col"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
             >
-              <button 
-                onClick={() => { setCurrentView("home"); setIsMobileMenuOpen(false); }} 
-                className={`text-left text-sm font-medium tracking-wide border-b border-zinc-900 pb-2 ${currentView === "home" ? "text-[#22c55e]" : "text-zinc-400"}`}
-              >
-                Home
-              </button>
-              <button 
-                onClick={() => { setCurrentView("serious-projects"); setIsMobileMenuOpen(false); }} 
-                className={`text-left text-sm font-medium tracking-wide border-b border-zinc-900 pb-2 ${currentView === "serious-projects" ? "text-[#22c55e]" : "text-zinc-500"}`}
+              {NAV_LINKS.map((link) => (
+                <button
+                  key={link.target}
+                  onClick={() => scrollTo(link.target)}
+                  className="text-left text-sm font-medium tracking-wide border-b border-zinc-900 pb-2 text-zinc-400"
+                >
+                  {link.label}
+                </button>
+              ))}
+              <button
+                onClick={() => openProject("solar_crm")}
+                className="text-left text-sm font-medium tracking-wide border-b border-zinc-900 pb-2 text-zinc-400"
               >
                 Products
               </button>
-              <button 
-                onClick={() => { scrollTo("partnership"); }} 
-                className="text-left text-sm font-medium tracking-wide border-b border-zinc-900 pb-2 text-zinc-400"
-              >
-                Plans
-              </button>
-              <button 
-                onClick={() => { setCurrentView("blogs"); setIsMobileMenuOpen(false); }} 
-                className={`text-left text-sm font-medium tracking-wide border-b border-zinc-900 pb-2 ${currentView === "blogs" ? "text-[#22c55e]" : "text-zinc-400"}`}
+              <button
+                onClick={() => { setCurrentView("blogs"); setIsMobileMenuOpen(false); }}
+                className="text-left text-sm font-medium tracking-wide pb-1 text-zinc-400"
               >
                 Blogs
               </button>
-              <button 
-                onClick={() => scrollTo("contact")} 
-                className="text-left text-sm font-medium tracking-wide pb-1 text-zinc-400"
-              >
-                Contact
-              </button>
-              <Button 
-                variant="default" 
-                size="sm" 
-                className="w-full mt-2"
-                onClick={() => scrollTo("contact")}
-              >
-                Book a Demo
+              <Button variant="default" size="sm" className="w-full mt-2" onClick={() => scrollTo("contact")}>
+                Book a Call
               </Button>
             </motion.div>
           )}
         </AnimatePresence>
       </header>
 
-      {/* Main Sections Wrapper */}
       <main className="relative z-10">
 
         {currentView === "home" ? (
           <>
-            {/* HERO SECTION */}
-            <section id="hero" className="relative min-h-[92vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-24 pb-20">
-              <div className="absolute inset-x-0 top-1/4 h-80 bg-[#22c55e]/[0.02] blur-3xl rounded-full pointer-events-none" />
+            {/* HERO */}
+            <section id="hero" className="relative px-4 sm:px-6 lg:px-8 pt-32 pb-20 md:pt-40 md:pb-28">
+              <div className="absolute inset-x-0 top-1/4 h-80 bg-[#22c55e]/[0.03] blur-3xl rounded-full pointer-events-none" />
 
-              <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10 select-none">
-                
-                {/* Word entry stagger on Headline */}
-                <motion.div 
-                  className="space-y-4"
-                  variants={staggerContainer}
-                  initial="hidden"
-                  animate="visible"
+              <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center relative z-10">
+                <motion.div
+                  className="lg:col-span-7 space-y-7"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
                 >
-                  <div className="inline-flex items-center space-x-2 bg-[#14321a]/40 border border-[#14321a] rounded-full px-3.5 py-1.5 mb-2 hover:border-[#22c55e] transition-colors">
+                  <div className="inline-flex items-center space-x-2 bg-[#14321a]/40 border border-[#14321a] rounded-full px-3.5 py-1.5">
                     <span className="flex h-1.5 w-1.5 rounded-full bg-[#22c55e] shadow-[0_0_8px_#22c55e] animate-pulse" />
-                    <span className="text-[11px] font-mono tracking-wider uppercase text-green-300 flex items-center gap-1.5 font-bold">
-                      <span>Custom Software Agency</span>
-                      <PixelMushroom size={14} animate={true} />
+                    <span className="text-xs font-medium text-green-300">
+                      Business software, built in Hyderabad
                     </span>
                   </div>
 
-                  <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-zinc-100 max-w-4xl mx-auto leading-[1.12]">
-                    {"We build the engines that run your operations.".split(" ").map((word, i, words) => (
-                      <React.Fragment key={word + "-" + i}>
-                      <motion.span 
-                        className="inline-block text-white"
-                        variants={{
-                          hidden: { opacity: 0, y: 15 },
-                          visible: { opacity: 1, y: 0, transition: { type: "spring", damping: 16, stiffness: 180, delay: i * 0.05 } }
-                        }}
-                      >
-                        {word}
-                      </motion.span>
-                      {i < words.length - 1 ? " " : null}
-                      </React.Fragment>
-                    ))}
+                  <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-[1.08]">
+                    Software shaped around<br className="hidden sm:block" />{" "}
+                    <span className="text-[#22c55e]">your business.</span>
                   </h1>
 
-                  {/* Subheadline Fade in delay */}
-                  <motion.p 
-                    className="text-base sm:text-lg text-zinc-400 max-w-3xl mx-auto leading-relaxed pt-2"
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8, duration: 0.6 }}
-                  >
-                    Bespoke systems for businesses that have outgrown spreadsheets and manual data entry.
-                  </motion.p>
-                </motion.div>
-
-                {/* CTAs */}
-                <motion.div 
-                  className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.1, duration: 0.5 }}
-                >
-                  <Button 
-                    variant="default" 
-                    size="lg" 
-                    className="w-full sm:w-auto h-11"
-                    onClick={() => {
-                      setCurrentView("serious-projects");
-                    }}
-                  >
-                    Explore Our Solutions
-                    <ArrowRight className="h-4 w-4 ml-2" />
-                  </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="lg" 
-                    className="w-full sm:w-auto border border-[#251b12] hover:border-[#22c55e]/60 transition-all text-zinc-350 hover:text-white"
-                    onClick={() => scrollTo("contact")}
-                  >
-                    Get in Touch
-                  </Button>
-                </motion.div>
-              </div>
-
-              {/* Scroll Down Hint decoration with responsive hides to prevent button overlaps */}
-              <div className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center space-y-2 pointer-events-none select-none opacity-50">
-                <span className="text-[10px] font-mono tracking-wider uppercase text-zinc-500">Scroll to Explore</span>
-                <div className="h-10 w-[1px] bg-zinc-850 relative overflow-hidden">
-                  <div className="absolute inset-x-0 h-1/2 bg-white animate-bounce top-0" />
-                </div>
-              </div>
-            </section>
-
-
-            {/* WORK SECTION (Bento Grid) */}
-            <section id="work" className="section bg-zinc-950 px-4 sm:px-6 lg:px-8 py-24 border-t border-zinc-900/60">
-              <div className="max-w-7xl mx-auto space-y-16">
-                
-                {/* Header label and title */}
-                <div className="space-y-4 max-w-xl">
-                  <div className="text-xs font-mono font-semibold tracking-wider text-green-500 uppercase flex items-center space-x-2">
-                    <span>01</span>
-                    <span className="h-px w-6 bg-green-800/40" />
-                    <span>Selected Portfolio Case Studies</span>
-                  </div>
-                  <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white flex items-center gap-2">
-                    <span>Work</span>
-                    <PixelMushroom size={20} className="align-middle" />
-                  </h2>
-                  <p className="text-sm text-zinc-400">
-                    Systems we have designed and built for real operations. Open any project for the full breakdown, or ask us for a live walkthrough.
+                  <p className="text-base sm:text-lg text-zinc-400 max-w-xl leading-relaxed">
+                    Not a generic CRM you have to bend to. We build systems that follow how your team already works,
+                    automate the documents you make every day, and set up the tools that save you hours each week.
                   </p>
-                </div>
 
-                {/* Bento Grid layout */}
-                <motion.div 
-                  className="grid grid-cols-1 md:grid-cols-3 gap-6"
-                  variants={staggerContainer}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "-100px" }}
-                >
-                  {PROJECTS.map((proj) => (
-                    <motion.div 
-                      key={proj.id} 
-                      variants={fadeUpItem}
-                      className={`flex h-full ${proj.gridSpan}`}
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a href={SOLARFLOW_DEMO_URL} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                      <Button variant="default" size="lg" className="w-full h-11">
+                        Try the SolarFlow Demo
+                        <ArrowUpRight className="h-4 w-4 ml-2" />
+                      </Button>
+                    </a>
+                    <Button
+                      variant="ghost"
+                      size="lg"
+                      className="w-full sm:w-auto h-11 border border-zinc-850 hover:border-[#22c55e]/60"
+                      onClick={() => scrollTo("contact")}
                     >
-                      <Card className="flex flex-col justify-between w-full p-6 relative group overflow-hidden border border-zinc-800/80 bg-zinc-950/45 hover:border-zinc-700 transition-all duration-300">
-                        
-                        {/* Visual pattern accent */}
-                        <div className="absolute top-0 right-0 h-24 w-24 bg-white/[0.005] rounded-bl-full pointer-events-none group-hover:bg-white/[0.01] transition-colors" />
-
-                        <div className="space-y-4">
-                          {/* Sub-header details */}
-                          <div className="text-xs font-mono text-green-500/80 uppercase tracking-wider">
-                            {proj.category}
-                          </div>
-
-                          {/* Title */}
-                          <div className="space-y-2">
-                            <div className="flex items-center space-x-1">
-                              <CardTitle className="text-md font-semibold text-zinc-100 group-hover:text-white transition-colors">
-                                {proj.title}
-                              </CardTitle>
-                            </div>
-                            <CardDescription className="text-sm text-zinc-400 leading-relaxed max-w-2xl min-h-[40px]">
-                              {proj.description}
-                            </CardDescription>
-                          </div>
-                        </div>
-                        {/* Footer region with live demo buttons */}
-                        <div className="mt-8 pt-4 border-t border-[#14321a]/60 flex flex-col sm:flex-row sm:items-center sm:justify-end gap-4">
-                          <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-                            <Button 
-                              variant="default" 
-                              size="sm" 
-                              className="w-full sm:w-auto h-8 text-xs px-3 font-semibold cursor-pointer"
-                              onClick={() => requestDemo(proj.title)}
-                            >
-                              Request a Demo
-                              <ArrowRight className="h-3.5 w-3.5 ml-1" />
-                            </Button>
-                            <Button 
-                              variant="outline" 
-                              size="sm" 
-                              className="w-full sm:w-auto h-8 border-[#14321a] text-xs px-3 hover:text-white hover:border-[#22c55e] cursor-pointer text-zinc-350"
-                              onClick={() => {
-                                setSelectedProjectId(proj.id);
-                                setCurrentView("serious-projects");
-                              }}
-                            >
-                              View Details
-                            </Button>
-                          </div>
-                        </div>
-                      </Card>
-                    </motion.div>
-                  ))}
-                </motion.div>
-
-              </div>
-            </section>
-
-
-            {/* SERVICES SECTION */}
-            <section id="services" className="section bg-zinc-950 px-4 sm:px-6 lg:px-8 py-24 border-t border-zinc-900/60">
-              <div className="max-w-7xl mx-auto space-y-16">
-                
-                {/* Header section content */}
-                <div className="space-y-4 max-w-xl">
-                  <div className="text-xs font-mono font-semibold tracking-wider text-green-500 uppercase flex items-center space-x-2">
-                    <span>02</span>
-                    <span className="h-px w-6 bg-green-800/40" />
-                    <span>Our Capabilities</span>
+                      Talk to Us
+                    </Button>
                   </div>
-                  <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white flex items-center gap-2">
-                    <span>Services</span>
-                    <PixelMushroom size={20} className="align-middle animate-[bounce_3s_infinite]" />
-                  </h2>
-                </div>
 
-                {/* Grid 4-columns */}
-                <motion.div 
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-                  variants={staggerContainer}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "-100px" }}
-                >
-                  {SERVICES.map((serv) => {
-                    const Icon = serv.icon;
-                    return (
-                      <motion.div key={serv.id} variants={fadeUpItem}>
-                        <Card className="p-6 md:p-8 h-full bg-zinc-950/50 border-zinc-850 hover:border-[#22c55e]/60 transition-all duration-300">
-                          <div className="space-y-6">
-                            {/* Custom icon rounded backdrop */}
-                            <div className="h-10 w-10 rounded-md bg-zinc-900 border border-zinc-800 flex items-center justify-center">
-                              <Icon className="h-5 w-5 text-[#22c55e]" />
-                            </div>
-                            <div className="space-y-3">
-                              <CardTitle className="text-base text-zinc-100 font-semibold">{serv.title}</CardTitle>
-                              <CardDescription className="text-zinc-400 text-sm leading-relaxed">{serv.description}</CardDescription>
-                            </div>
-                          </div>
-                        </Card>
-                      </motion.div>
-                    );
-                  })}
+                  <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-4 text-xs text-zinc-500">
+                    <span className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-[#22c55e]" />90+ people use it every day</span>
+                    <span className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-[#22c55e]" />No per-user fees</span>
+                    <span className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-[#22c55e]" />You own your data</span>
+                  </div>
                 </motion.div>
 
+                {/* Quick links panel */}
+                <motion.div
+                  className="lg:col-span-5"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                >
+                  <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 backdrop-blur-md p-2">
+                    <div className="px-4 pt-3 pb-2 text-xs font-medium text-zinc-500">
+                      What are you looking for?
+                    </div>
+                    {QUICK_LINKS.map((link, i) => {
+                      const Icon = link.icon;
+                      return (
+                        <button
+                          key={link.target}
+                          onClick={() => scrollTo(link.target)}
+                          className={`w-full flex items-center gap-4 rounded-xl p-4 text-left transition-colors group cursor-pointer ${
+                            i === 0 ? "bg-[#14321a]/30 border border-[#14321a] hover:border-[#22c55e]/60" : "hover:bg-zinc-900/70"
+                          }`}
+                        >
+                          <div className={`h-10 w-10 shrink-0 rounded-lg flex items-center justify-center ${i === 0 ? "bg-[#22c55e]/15" : "bg-zinc-900 border border-zinc-800"}`}>
+                            <Icon className="h-5 w-5 text-[#22c55e]" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-sm font-semibold text-zinc-100">{link.title}</div>
+                            <div className="text-xs text-zinc-500">{link.desc}</div>
+                          </div>
+                          <ArrowRight className="h-4 w-4 text-zinc-600 group-hover:text-[#22c55e] group-hover:translate-x-0.5 transition-all" />
+                        </button>
+                      );
+                    })}
+                  </div>
+                </motion.div>
               </div>
             </section>
 
 
-            {/* PRIVATE DEPLOYMENT SECTION (Highlight Full Width) */}
-            <section className="bg-zinc-950 py-24 px-4 sm:px-6 lg:px-8 border-t border-zinc-900/60 overflow-hidden relative">
-              {/* Subtle light trace effect inside the deployment container frame */}
-              <div className="max-w-7xl mx-auto bg-zinc-950/20 border border-zinc-800/80 rounded-2xl p-8 md:p-12 relative overflow-hidden backdrop-blur-md">
-                
-                {/* Minimal pattern */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#161618_1px,transparent_1px),linear-gradient(to_bottom,#161618_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_100%,#000_60%,transparent_100%)] pointer-events-none" />
+            {/* HIGHLIGHTS STRIP */}
+            <section className="px-4 sm:px-6 lg:px-8 border-t border-zinc-900/60 bg-zinc-900/20">
+              <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 divide-zinc-900 lg:divide-x">
+                {HIGHLIGHTS.map((item) => (
+                  <div key={item.label} className="py-8 px-2 lg:px-8 text-center lg:text-left">
+                    <div className="font-display text-2xl sm:text-3xl font-bold text-white">{item.value}</div>
+                    <div className="text-xs text-zinc-400 mt-1">{item.label}</div>
+                  </div>
+                ))}
+              </div>
+            </section>
 
-                {/* Two column grid content */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 relative z-10 items-center">
-                  
-                  {/* Text side */}
-                  <div className="lg:col-span-7 space-y-6">
-                    <div className="inline-flex items-center space-x-2 bg-zinc-900 border border-zinc-800 rounded-full px-3 py-1">
-                      <ShieldCheck className="h-3.5 w-3.5 text-zinc-300" />
-                      <span className="text-[10px] font-mono tracking-wider uppercase text-zinc-400">Security Architecture</span>
-                    </div>
-                    
-                    <h2 className="text-3xl font-semibold tracking-tight text-white">
-                      Your data stays yours.
-                    </h2>
-                    
-                    <p className="text-sm text-zinc-400 leading-relaxed max-w-2xl">
-                      We deploy everything on your own infrastructure. No third party touches your data, no vendor lock-in, no monthly SaaS fees. Docker-based, one command to run, fully yours.
+
+            {/* APPROACH: GENERIC CRM VS BUILT AROUND YOU */}
+            <Section id="approach">
+              <SectionHeader label="Our approach" title="Why not just use a generic CRM?">
+                Off-the-shelf CRMs are built for everyone, so your team ends up working around them. We think a system
+                should be specialised: built around your business, your stages and your people, and nothing else.
+              </SectionHeader>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card className="p-6 sm:p-8 bg-zinc-950/40 border-zinc-850">
+                  <div className="text-xs font-medium text-zinc-500 font-bold">Generic CRM</div>
+                  <h3 className="font-display text-xl font-bold text-zinc-300 mt-2">You adapt to the software</h3>
+                  <ul className="space-y-3 mt-6 pt-6 border-t border-zinc-900">
+                    {GENERIC_VS_BUILT.generic.map((point) => (
+                      <li key={point} className="flex items-start gap-3 text-sm text-zinc-400">
+                        <XCircle className="h-4 w-4 text-zinc-600 shrink-0 mt-0.5" />
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+                <Card className="p-6 sm:p-8 bg-[#0d170f]/60 border-[#14321a]">
+                  <div className="text-xs font-medium text-[#22c55e] font-bold">Built by Deeproot</div>
+                  <h3 className="font-display text-xl font-bold text-white mt-2">The software adapts to you</h3>
+                  <ul className="space-y-3 mt-6 pt-6 border-t border-[#14321a]">
+                    {GENERIC_VS_BUILT.built.map((point) => (
+                      <li key={point} className="flex items-start gap-3 text-sm text-zinc-200">
+                        <CheckCircle2 className="h-4 w-4 text-[#22c55e] shrink-0 mt-0.5" />
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              </div>
+            </Section>
+
+
+            {/* SOLARFLOW */}
+            <Section id="solarflow">
+              <div className="rounded-3xl border border-[#14321a] bg-gradient-to-br from-[#0d170f]/80 via-zinc-950 to-zinc-950 p-6 sm:p-10 lg:p-14 relative overflow-hidden">
+                <div className="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-[#22c55e]/10 blur-3xl pointer-events-none" />
+
+                <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
+                  <div className="lg:col-span-5 space-y-6">
+                    <div className="text-sm font-semibold text-[#22c55e]">Our flagship product</div>
+                    <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-white">SolarFlow™</h2>
+                    <p className="text-sm sm:text-base text-zinc-300 leading-relaxed">
+                      The operations system for rooftop solar installers. Quotations, loans, PM Surya Ghar subsidies,
+                      godown stock, delivery trips and partner portals in one place, instead of spread across Google Sheets and WhatsApp.
                     </p>
 
-                    {/* 3 Callouts */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-zinc-900">
-                      <div className="space-y-1">
-                        <span className="text-xs font-mono font-medium text-zinc-150 block">Local AI Models</span>
-                        <span className="text-xs text-zinc-500 block">Whisper, Llama, and vision modules run matching offline.</span>
-                      </div>
-                      <div className="space-y-1">
-                        <span className="text-xs font-mono font-medium text-zinc-150 block">Docker Deployed</span>
-                        <span className="text-xs text-zinc-500 block">Single deployment command builds sandbox cleanly.</span>
-                      </div>
-                      <div className="space-y-1">
-                        <span className="text-xs font-mono font-medium text-zinc-150 block">Zero Vendor Lock-in</span>
-                        <span className="text-xs text-zinc-500 block">Fully owned codebase, standard PostgreSQL db.</span>
-                      </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      {SOLARFLOW_STATS.map((stat) => (
+                        <div key={stat.label} className="rounded-xl border border-zinc-850 bg-zinc-950/60 p-4">
+                          <div className="font-display text-2xl font-bold text-[#22c55e]">{stat.value}</div>
+                          <div className="text-xs text-zinc-400 mt-1">{stat.label}</div>
+                        </div>
+                      ))}
                     </div>
+
+                    <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                      <a href={SOLARFLOW_DEMO_URL} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                        <Button variant="default" className="w-full">
+                          Open Live Demo
+                          <ArrowUpRight className="h-4 w-4 ml-2" />
+                        </Button>
+                      </a>
+                      <Button variant="outline" className="w-full sm:w-auto hover:border-[#22c55e]" onClick={() => openProject("solar_crm")}>
+                        Full Breakdown
+                      </Button>
+                    </div>
+                    <p className="text-xs text-zinc-500">
+                      Pick any of 8 roles in the demo, from admin to vendor. No password, and your own sandbox with sample data.
+                    </p>
                   </div>
 
-                  {/* Terminal mock side */}
-                  <div className="lg:col-span-5 h-full flex flex-col justify-center">
-                    <div className="w-full bg-zinc-950 border border-zinc-900 rounded-lg p-5 font-mono text-[11px] leading-relaxed select-none shadow-2xl relative">
-                      
-                      {/* Decorative dots */}
-                      <div className="flex items-center space-x-1.5 border-b border-zinc-900 pb-3.5 mb-4">
-                        <div className="h-2 w-2 rounded-full bg-zinc-800" />
-                        <div className="h-2 w-2 rounded-full bg-zinc-800" />
-                        <div className="h-2 w-2 rounded-full bg-zinc-800" />
-                        <span className="text-[9px] text-zinc-500 ml-2">deeproot-deploy-service</span>
-                      </div>
-
-                      {/* Lines */}
-                      <div className="space-y-2 text-zinc-400">
-                        <div className="flex items-center">
-                          <span className="text-zinc-655 mr-1.5">$</span>
-                          <span className="text-zinc-200">docker-compose up -d --build</span>
-                        </div>
-                        <div className="text-zinc-500">Creating deeproot-network ... <span className="text-green-500">done</span></div>
-                        <div className="text-zinc-500">Building core-ops-pipeline ... <span className="text-green-500">done</span></div>
-                        <div className="text-zinc-500">Running postgresql:16 ... <span className="text-zinc-300">Port 5432</span></div>
-                        <div className="text-zinc-500">Setting model hooks [Ollama] ... <span className="text-zinc-300">Ready</span></div>
-                        <div className="text-zinc-200 animate-pulse flex items-center space-x-1 pt-1.5">
-                          <CheckCircle2 className="h-3.5 w-3.5 text-[#22c55e] mr-1 inline" />
-                          <span>Systems integrated. Service live.</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </section>
-
-
-            {/* MARQUEE SECTION */}
-            <section id="stack" className="bg-zinc-950 py-16 px-4 border-t border-zinc-900/60 overflow-hidden relative select-none">
-              <div className="max-w-7xl mx-auto space-y-8">
-                <div className="text-center max-w-xl mx-auto space-y-2">
-                  <div className="text-xs font-mono text-green-500 uppercase tracking-wider">03 / Standard Tech Stack</div>
-                  <h3 className="text-lg font-semibold text-zinc-100">The battle-tested technologies we use</h3>
-                </div>
-
-                {/* Marquee viewport container */}
-                <div className="relative w-full overflow-hidden py-4 mt-6">
-                  <div className="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-zinc-950 to-transparent z-10 pointer-events-none" />
-                  <div className="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-zinc-950 to-transparent z-10 pointer-events-none" />
-
-                  {/* Scrolling wrapper row with infinite linear marquee animation */}
-                  <div className="flex flex-nowrap w-max gap-8 animate-marquee hover:[animation-play-state:paused] cursor-pointer">
-                    {[...STACK_ITEMS, ...STACK_ITEMS].map((item, index) => (
-                      <div 
-                        key={index} 
-                        className="flex items-center space-x-2 border border-zinc-900 bg-zinc-900/15 text-zinc-400 hover:text-white rounded-lg px-4 py-2.5 hover:border-zinc-700 transition-colors duration-200 font-mono text-xs font-semibold"
-                      >
-                        <span>{item}</span>
-                      </div>
-                    ))}
+                  <div className="lg:col-span-7">
+                    <IconGrid items={SOLARFLOW_FEATURES} cols="" />
                   </div>
                 </div>
               </div>
-            </section>
 
+              {/* Client versions */}
+              <div className="space-y-8">
+                <div className="max-w-2xl space-y-3">
+                  <h3 className="font-display text-2xl sm:text-3xl font-bold text-white">One product, shaped for each company.</h3>
+                  <p className="text-sm sm:text-base text-zinc-400 leading-relaxed">
+                    Every installer runs their business a little differently, so every copy of SolarFlow is different too.
+                    Here is what we built specially for the companies using it.
+                  </p>
+                </div>
 
-            {/* THE PARTNERSHIP MODEL SECTION */}
-            <section id="partnership" className="bg-zinc-950 px-4 sm:px-6 lg:px-8 py-24 border-t border-zinc-900/60 relative">
-              <div className="max-w-7xl mx-auto space-y-12">
-                
-                {/* Section Header */}
-                <div className="max-w-2xl">
-                  <div className="text-xs font-mono font-semibold tracking-wider text-green-500 uppercase flex items-center space-x-2">
-                    <span>04</span>
-                    <span className="h-px w-6 bg-green-800/40" />
-                    <span>The Partnership Model</span>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {CLIENT_BUILDS.map((client) => (
+                    <Card key={client.name} className="p-6 sm:p-7 bg-zinc-950/50 border-zinc-850 hover:border-[#22c55e]/40 transition-colors flex flex-col">
+                      <div className="text-xs font-medium text-green-400 font-bold">{client.type}</div>
+                      <h4 className="font-display text-xl font-bold text-white mt-2">{client.name}</h4>
+                      <p className="text-sm text-zinc-400 mt-2 leading-relaxed">{client.summary}</p>
+                      <ul className="space-y-2.5 mt-5 pt-5 border-t border-zinc-900">
+                        {client.custom.map((point) => (
+                          <li key={point} className="flex items-start gap-2.5 text-[13px] text-zinc-300 leading-relaxed">
+                            <CheckCircle2 className="h-3.5 w-3.5 text-[#22c55e] shrink-0 mt-1" />
+                            <span>{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </Card>
+                  ))}
+                </div>
+
+                {/* How customization works */}
+                <div className="rounded-2xl border border-zinc-850 bg-zinc-900/30 p-6 sm:p-8">
+                  <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+                    <div>
+                      <div className="text-xs font-medium text-zinc-500 font-bold">How each copy is made</div>
+                      <h4 className="font-display text-xl font-bold text-white mt-2">Two setup forms, then your own system in 3 to 5 working days.</h4>
+                    </div>
+                    <Button variant="outline" size="sm" className="h-9 px-4 hover:border-[#22c55e] shrink-0" onClick={() => requestDemo("SolarFlow")}>
+                      Get Your Own Copy
+                    </Button>
                   </div>
-                  <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white mt-3">
-                    Choose Your Pace
-                  </h2>
-                  <p className="text-xs sm:text-sm text-zinc-450 mt-2">
-                    Two practical frameworks to architect, deploy, and support your custom enterprise system.
+                  <IconGrid items={CUSTOMIZATION_STEPS} cols="lg:grid-cols-4" />
+                  <p className="text-xs text-zinc-500 mt-5">
+                    Each company gets its own database, its own web address and its own logins. Nothing is shared between clients.
                   </p>
                 </div>
+              </div>
+            </Section>
 
-                {/* Italicized Quote Box (Roots run deep) */}
-                <div className="border border-[#251b12] bg-[#1a120c]/25 p-5 rounded-xl max-w-3xl border-l-[3px] border-l-[#22c55e]/60">
-                  <p className="text-xs sm:text-sm font-mono text-zinc-350 italic leading-relaxed">
-                    "Real operational efficiency isn&apos;t bought off-the-shelf; it is custom-engineered from the soil up."
-                  </p>
+
+            {/* TESTIMONIALS (hidden until a client has approved a quote) */}
+            {approvedTestimonials.length > 0 && (
+              <Section id="testimonials">
+                <SectionHeader label="What clients say" title="Built for how they work." />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {approvedTestimonials.map((t) => (
+                    <Card key={t.quote} className="p-6 sm:p-8 bg-zinc-950/50 border-zinc-850 flex flex-col justify-between">
+                      <p className="text-sm text-zinc-200 leading-relaxed">&ldquo;{t.quote}&rdquo;</p>
+                      <div className="mt-6 pt-5 border-t border-zinc-900">
+                        <div className="text-sm font-semibold text-white">{t.name}</div>
+                        <div className="text-xs text-zinc-500">{t.role}</div>
+                      </div>
+                    </Card>
+                  ))}
                 </div>
+              </Section>
+            )}
 
-                {/* 2 Choice Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {/* Option 1: The Asset Model */}
-                  <Card className="p-6 sm:p-8 bg-zinc-950/40 border-zinc-850 flex flex-col justify-between hover:border-[#22c55e]/30 transition-all duration-300 relative overflow-hidden group">
-                    <div className="space-y-6">
-                      <div className="space-y-2">
-                        <span className="text-[10px] font-mono tracking-widest text-[#22c55e] uppercase font-bold">Buy & Own</span>
-                        <h3 className="text-lg font-bold text-white">Option 1: The Asset Model</h3>
-                        <p className="text-xs text-zinc-450">Best for established firms looking to build long-term company value.</p>
+
+            {/* GOOD FEATURES */}
+            <Section id="features">
+              <SectionHeader label="Worth having anywhere" title="Features every business should have.">
+                Whatever your industry, these are the things we build into almost every system, because they save time from day one.
+              </SectionHeader>
+              <IconGrid items={GOOD_FEATURES} cols="lg:grid-cols-4" />
+            </Section>
+
+
+            {/* TOOLS */}
+            <Section id="tools">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
+                <div className="lg:col-span-4 space-y-5">
+                  <SectionHeader label="Start small" title="Maybe you just need a few good tools.">
+                    Not every business needs a full system on day one. Sometimes a quote maker, a GST calculator and a proper
+                    receipt are what make the biggest difference. We have a ready-made toolbox we can brand for you.
+                  </SectionHeader>
+                  <Button variant="default" size="sm" className="h-9 px-4" onClick={() => enquire("I'd like a set of business tools for my company.")}>
+                    Ask About the Toolbox
+                    <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+                  </Button>
+                </div>
+                <div className="lg:col-span-8">
+                  <IconGrid items={TOOLS} cols="lg:grid-cols-3" />
+                </div>
+              </div>
+            </Section>
+
+
+            {/* DOCUMENT AUTOMATION */}
+            <Section id="documents">
+              <SectionHeader label="Document automation" title="If you make it more than twice, it can be automated.">
+                Any document your team types out again and again can be generated from data you already have. What took
+                twenty minutes of copying, formatting and checking takes seconds, with no typos and the right numbering every time.
+              </SectionHeader>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {DOC_FLOW.map((step, i) => (
+                  <div key={step.title} className="relative rounded-2xl border border-zinc-850 bg-zinc-950/40 p-6">
+                    <span className="font-display text-4xl font-bold text-zinc-850">{i + 1}</span>
+                    <h3 className="text-base font-semibold text-white mt-3">{step.title}</h3>
+                    <p className="text-sm text-zinc-400 mt-1.5">{step.desc}</p>
+                    {i < DOC_FLOW.length - 1 && (
+                      <ArrowRight className="hidden md:block absolute top-1/2 -right-3.5 -translate-y-1/2 h-5 w-5 text-[#22c55e] z-10" />
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              <div className="rounded-2xl border border-[#14321a] bg-[#0d170f]/40 p-6 sm:p-8 flex flex-col lg:flex-row gap-8 lg:items-center">
+                <div className="lg:w-1/3 space-y-2">
+                  <div className="flex items-center gap-2 text-[#22c55e]">
+                    <Clock className="h-4 w-4" />
+                    <span className="text-xs font-medium font-bold">Documents we automate</span>
+                  </div>
+                  <p className="text-sm text-zinc-300">Paper coming in can be read with OCR, and documents going out can be sent as a link.</p>
+                </div>
+                <div className="lg:w-2/3 flex flex-wrap gap-2">
+                  {DOC_EXAMPLES.map((doc) => (
+                    <span key={doc} className="rounded-full border border-zinc-800 bg-zinc-950/60 px-3.5 py-1.5 text-xs text-zinc-300">{doc}</span>
+                  ))}
+                  <span className="rounded-full border border-[#22c55e]/40 px-3.5 py-1.5 text-xs text-[#22c55e]">Yours too</span>
+                </div>
+              </div>
+            </Section>
+
+
+            {/* ONE-TIME SETUPS */}
+            <Section id="services">
+              <SectionHeader label="Individual setups" title="One-time setups that make a real difference.">
+                Small jobs, done properly, that make a business look sharper and run smoother.
+              </SectionHeader>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {SETUPS.map((serv) => {
+                  const Icon = serv.icon;
+                  return (
+                    <Card key={serv.id} id={serv.id} className="p-6 sm:p-8 bg-zinc-950/50 border-zinc-850 hover:border-[#22c55e]/40 transition-colors flex flex-col scroll-mt-24">
+                      <div className="flex items-center gap-3">
+                        <div className="h-11 w-11 rounded-lg bg-[#14321a]/50 border border-[#14321a] flex items-center justify-center">
+                          <Icon className="h-5 w-5 text-[#22c55e]" />
+                        </div>
+                        <span className="text-xs font-medium text-green-400 font-bold">{serv.tag}</span>
                       </div>
-
-                      <div className="space-y-4 pt-4 border-t border-zinc-900 text-xs">
-                        <div className="flex items-start space-x-3">
-                          <CheckCircle2 className="h-4 w-4 text-[#22c55e] shrink-0 mt-0.5" />
-                          <div>
-                            <span className="font-semibold text-zinc-200 block">The Investment</span>
-                            <span className="text-zinc-450">A one-time project fee to architect, build, and install your system.</span>
-                          </div>
-                        </div>
-
-                        <div className="flex items-start space-x-3">
-                          <CheckCircle2 className="h-4 w-4 text-[#22c55e] shrink-0 mt-0.5" />
-                          <div>
-                            <span className="font-semibold text-zinc-200 block">The Ownership</span>
-                            <span className="text-zinc-450">You own the code and the data 100%. It is a digital asset on your company’s balance sheet.</span>
-                          </div>
-                        </div>
-
-                        <div className="flex items-start space-x-3">
-                          <CheckCircle2 className="h-4 w-4 text-[#22c55e] shrink-0 mt-0.5" />
-                          <div>
-                            <span className="font-semibold text-zinc-200 block">The Support</span>
-                            <span className="text-zinc-450">Includes 30 days of post-launch support. Optional "Peace of Mind" maintenance is available afterward for a flat monthly fee.</span>
-                          </div>
-                        </div>
+                      <CardTitle className="font-display text-xl font-bold text-white mt-5">{serv.title}</CardTitle>
+                      <CardDescription className="text-sm text-zinc-400 leading-relaxed mt-2">{serv.pitch}</CardDescription>
+                      <ul className="space-y-2.5 mt-5 flex-1">
+                        {serv.points.map((point) => (
+                          <li key={point} className="flex items-start gap-2.5 text-sm text-zinc-300">
+                            <CheckCircle2 className="h-4 w-4 text-[#22c55e] shrink-0 mt-0.5" />
+                            <span>{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-6 border-t border-zinc-900">
+                        <Button variant="default" size="sm" className="w-full sm:w-auto h-9 px-4" onClick={() => enquire(`I'm interested in ${serv.title}.`)}>
+                          Ask About This
+                          <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+                        </Button>
+                        {serv.projectId && (
+                          <Button variant="outline" size="sm" className="w-full sm:w-auto h-9 px-4 hover:border-[#22c55e]" onClick={() => openProject(serv.projectId!)}>
+                            {serv.projectLabel}
+                          </Button>
+                        )}
                       </div>
-                    </div>
+                    </Card>
+                  );
+                })}
+              </div>
 
-                    <div className="mt-8 pt-6 border-t border-zinc-900 bg-[#251b12]/15 p-4 rounded-lg">
-                      <span className="text-[9px] font-mono text-zinc-550 uppercase tracking-wider block font-bold">WHY CHOOSE THIS?</span>
-                      <p className="text-xs text-zinc-300 mt-1 leading-relaxed">
-                        You eliminate "per-user" subscription fees forever and maintain total control over your infrastructure.
-                      </p>
-                    </div>
+              <div className="space-y-5">
+                <h3 className="text-sm font-semibold text-zinc-300">Smaller improvements that save time every week</h3>
+                <IconGrid items={EXTRA_SETUPS} cols="lg:grid-cols-3" />
+              </div>
+            </Section>
+
+
+            {/* LONG-TERM PARTNERSHIP + PLANS */}
+            <Section id="partnership">
+              <SectionHeader label="Long-term partnership" title="We don't hand over and disappear.">
+                Your business will change, and your system should change with it. We work with clients for the long run, so the
+                same team keeps improving the same system year after year.
+              </SectionHeader>
+
+              <IconGrid items={PARTNERSHIP_POINTS} cols="lg:grid-cols-4" />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {PLANS.map((plan) => (
+                  <Card key={plan.title} className="p-6 sm:p-8 bg-zinc-950/40 border-zinc-850 hover:border-[#22c55e]/40 transition-colors flex flex-col">
+                    <span className="text-xs font-semibold text-[#22c55e]">{plan.tag}</span>
+                    <h3 className="font-display text-xl font-bold text-white mt-2">{plan.title}</h3>
+                    <p className="text-sm text-zinc-400 mt-1">{plan.fit}</p>
+                    <ul className="space-y-3 mt-6 pt-6 border-t border-zinc-900 flex-1">
+                      {plan.points.map((point) => (
+                        <li key={point} className="flex items-start gap-3 text-sm text-zinc-300">
+                          <CheckCircle2 className="h-4 w-4 text-[#22c55e] shrink-0 mt-0.5" />
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </Card>
+                ))}
+              </div>
+            </Section>
 
-                  {/* Option 2: The Managed Engine */}
-                  <Card className="p-6 sm:p-8 bg-zinc-950/40 border-zinc-850 flex flex-col justify-between hover:border-[#22c55e]/30 transition-all duration-300 relative overflow-hidden group">
-                    <div className="space-y-6">
-                      <div className="space-y-2">
-                        <span className="text-[10px] font-mono tracking-widest text-[#22c55e] uppercase font-bold">Subscription</span>
-                        <h3 className="text-lg font-bold text-white">Option 2: The Managed Engine</h3>
-                        <p className="text-xs text-zinc-450">Best for fast-growing businesses that want elite tech with zero upfront stress.</p>
+
+            {/* BUILD WITH US: ROYALTY MODEL */}
+            <Section id="build-with-us">
+              <div className="rounded-3xl border border-[#14321a] bg-gradient-to-br from-[#0d170f]/70 via-zinc-950 to-zinc-950 p-6 sm:p-10 lg:p-14 space-y-12 relative overflow-hidden">
+                <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-[#22c55e]/10 blur-3xl pointer-events-none" />
+
+                <div className="relative">
+                  <SectionHeader label="Build a product with us" title="Help us build it, and earn from every sale.">
+                    This is how SolarFlow started. We find an industry that still runs on spreadsheets, build the product
+                    hand in hand with one company, and then offer it to others in the same field.
+                  </SectionHeader>
+                </div>
+
+                <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {VENTURE_STEPS.map((step, i) => {
+                    const Icon = step.icon;
+                    return (
+                      <div key={step.title} className="rounded-xl border border-zinc-850 bg-zinc-950/60 p-5">
+                        <div className="flex items-center justify-between">
+                          <Icon className="h-5 w-5 text-[#22c55e]" />
+                          <span className="text-xs text-zinc-500">Step {i + 1}</span>
+                        </div>
+                        <div className="text-sm font-semibold text-zinc-100 mt-4">{step.title}</div>
+                        <div className="text-xs text-zinc-400 leading-relaxed mt-1.5">{step.desc}</div>
                       </div>
-
-                      <div className="space-y-4 pt-4 border-t border-zinc-900 text-xs">
-                        <div className="flex items-start space-x-3">
-                          <CheckCircle2 className="h-4 w-4 text-[#22c55e] shrink-0 mt-0.5" />
-                          <div>
-                            <span className="font-semibold text-zinc-200 block">The Investment</span>
-                            <span className="text-zinc-450">A predictable monthly "all-inclusive" fee. No large upfront cost.</span>
-                          </div>
-                        </div>
-
-                        <div className="flex items-start space-x-3">
-                          <CheckCircle2 className="h-4 w-4 text-[#22c55e] shrink-0 mt-0.5" />
-                          <div>
-                            <span className="font-semibold text-zinc-200 block">The Service</span>
-                            <span className="text-zinc-450">We host, manage, and maintain the entire system on our secure cloud. We handle everything under the hood.</span>
-                          </div>
-                        </div>
-
-                        <div className="flex items-start space-x-3">
-                          <CheckCircle2 className="h-4 w-4 text-[#22c55e] shrink-0 mt-0.5" />
-                          <div>
-                            <span className="font-semibold text-zinc-200 block">The Flexibility</span>
-                            <span className="text-zinc-450">You get the same custom power as our Asset Model, but with the flexibility of a monthly operating expense.</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-8 pt-6 border-t border-zinc-900 bg-[#251b12]/15 p-4 rounded-lg">
-                      <span className="text-[9px] font-mono text-zinc-550 uppercase tracking-wider block font-bold">WHY CHOOSE THIS?</span>
-                      <p className="text-xs text-zinc-300 mt-1 leading-relaxed">
-                        You get a private technical department and high-end software for a single monthly price. We grow with you.
-                      </p>
-                    </div>
-                  </Card>
+                    );
+                  })}
                 </div>
 
-              </div>
-            </section>
-
-
-            {/* ABOUT SECTION */}
-            <section className="section bg-zinc-950 px-4 sm:px-6 lg:px-8 py-24 border-t border-zinc-900/60">
-              <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-start justify-between gap-12 md:gap-24">
-                
-                {/* Header label and title */}
-                <div className="space-y-4 max-w-sm">
-                  <div className="text-xs font-mono font-semibold tracking-wider text-green-500 uppercase flex items-center space-x-2">
-                    <span>05</span>
-                    <span className="h-px w-6 bg-green-800/40" />
-                    <span>The Deeproot Mandate</span>
+                <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-6 items-center rounded-2xl border border-[#22c55e]/30 bg-zinc-950/70 p-6 sm:p-8">
+                  <div className="lg:col-span-8 space-y-3">
+                    <h3 className="font-display text-lg sm:text-xl font-bold text-white">How the royalty works</h3>
+                    <p className="text-sm text-zinc-300 leading-relaxed">
+                      If there is demand and we sell the product to other companies, the company that helped build it gets a
+                      percentage of those sales. The percentage depends on how much they contributed: time, know-how and money.
+                      It is paid until they have earned back what they put in, or for up to two years, whichever comes first.
+                    </p>
                   </div>
-                  <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white">
-                    About us
-                  </h2>
-                </div>
-
-                {/* Main short body about Deeproot Systems */}
-                <div className="flex-1 md:pt-4">
-                  <p className="text-sm sm:text-base text-zinc-350 leading-relaxed font-normal">
-                    Small focused team that goes deep on operations, automation, and data. Not an agency that takes every project. We pick problems worth solving and build systems that actually get used.
-                  </p>
-                </div>
-
-              </div>
-            </section>
-
-
-            {/* CONTACT SECTION */}
-            <section id="contact" className="section bg-zinc-950 px-4 sm:px-6 lg:px-8 py-24 border-t border-zinc-900/60">
-              <div className="max-w-7xl mx-auto space-y-16">
-                
-                {/* Header copy */}
-                <div className="max-w-xl mx-auto text-center space-y-4">
-                  <div className="text-xs font-mono font-semibold tracking-wider text-green-500 uppercase inline-flex items-center space-x-2">
-                    <span>06</span>
-                    <span className="h-px w-6 bg-green-800/40" />
-                    <span>Let&apos;s Build</span>
+                  <div className="lg:col-span-4 flex lg:justify-end">
+                    <Button variant="default" className="w-full lg:w-auto" onClick={() => enquire("I'd like to build an industry product with Deeproot.")}>
+                      Pitch Your Industry
+                      <ArrowRight className="h-4 w-4 ml-2" />
+                    </Button>
                   </div>
-                  
-                  <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white leading-tight">
-                    Have a process that needs fixing?
-                  </h2>
-                  
-                  <p className="text-sm text-zinc-450 leading-relaxed">
-                    Tell us what is slow, broken, or manual. We will tell you honestly if we can help.
-                  </p>
                 </div>
-
-                {/* Diagnostic interactive form */}
-                <div className="pt-4">
-                  <ContactForm prefillMessage={demoPrefill} />
-                </div>
-
-                {/* Direct secure email fallback */}
-                <div className="text-center pt-8 space-y-3">
-                  <p className="text-xs text-zinc-500 font-mono">
-                    Prefer email? Write to us directly
-                  </p>
-                  <a 
-                    href="mailto:enquiry@deeprootsystems.in" 
-                    className="inline-flex items-center space-x-2 text-zinc-300 hover:text-white transition-all border border-zinc-900 bg-zinc-950/50 hover:bg-zinc-900/40 rounded-full px-4.5 py-2 font-mono text-xs shadow-md"
-                  >
-                    <Mail className="h-3.5 w-3.5 text-zinc-400" />
-                    <span>enquiry@deeprootsystems.in</span>
-                    <ArrowUpRight className="h-3.5 w-3.5 text-zinc-500" />
-                  </a>
-                </div>
-
               </div>
-            </section>
+            </Section>
+
+
+            {/* CONTACT */}
+            <Section id="contact">
+              <SectionHeader label="Let's talk" title="Tell us what you need." center>
+                A small, focused team in Hyderabad. Tell us what is slow, broken or manual, and we will tell you honestly if we can help.
+              </SectionHeader>
+
+              <ContactForm prefillMessage={demoPrefill} />
+
+              <div className="text-center space-y-3">
+                <p className="text-xs text-zinc-500">Prefer email? Write to us directly</p>
+                <a
+                  href="mailto:enquiry@deeprootsystems.in"
+                  className="inline-flex items-center space-x-2 text-zinc-300 hover:text-white transition-all border border-zinc-900 bg-zinc-950/50 hover:bg-zinc-900/40 rounded-full px-4.5 py-2 font-mono text-xs shadow-md"
+                >
+                  <Mail className="h-3.5 w-3.5 text-zinc-400" />
+                  <span>enquiry@deeprootsystems.in</span>
+                  <ArrowUpRight className="h-3.5 w-3.5 text-zinc-500" />
+                </a>
+              </div>
+            </Section>
           </>
         ) : (
-          /* Multi-view sub-pages routing container */
+          /* Sub-pages */
           <section className="relative px-4 sm:px-6 lg:px-8 py-24 max-w-7xl mx-auto min-h-[85vh]">
             {currentView === "blogs" && <BlogsView />}
             {currentView === "miniapps" && <MiniAppsView />}
-            {currentView === "serious-projects" && <SeriousProjectsView initialProjectId={selectedProjectId} onRequestDemo={requestDemo} />}
-            
-            {/* Direct secure email enquiry bar inside all subpage layouts */}
+            {currentView === "serious-projects" && (
+              // Keyed so picking another project from the footer remounts the view on it
+              <React.Fragment key={selectedProjectId}>
+                <SeriousProjectsView initialProjectId={selectedProjectId} onRequestDemo={requestDemo} />
+              </React.Fragment>
+            )}
+
             <div className="border-t border-zinc-900 mt-20 pt-12 text-center space-y-4">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block">Questions? Get in touch</span>
+              <span className="text-xs text-zinc-500 block">Questions? Get in touch</span>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Button
                   variant="outline"
@@ -836,8 +747,8 @@ export default function App() {
                   <ArrowLeft size={13} className="mr-1.5" />
                   Back to Homepage
                 </Button>
-                <a 
-                  href="mailto:enquiry@deeprootsystems.in" 
+                <a
+                  href="mailto:enquiry@deeprootsystems.in"
                   className="inline-flex items-center space-x-2 text-zinc-300 hover:text-white transition-all border border-zinc-900 bg-zinc-950/50 hover:bg-zinc-900/40 rounded-full px-4.5 py-2 font-mono text-xs shadow-md h-9"
                 >
                   <Mail className="h-3.5 w-3.5 text-zinc-450" />
@@ -851,16 +762,42 @@ export default function App() {
 
       </main>
 
-      {/* Footer copyright */}
-      <footer className="bg-zinc-950 border-t border-zinc-900 py-12 px-4 text-center text-xs text-zinc-600 relative z-10">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p>© {new Date().getFullYear()} Deeproot Systems. All rights reserved.</p>
-          <div className="flex items-center space-x-3 text-zinc-500">
-            <span>Hyderabad, India</span>
-            <span>•</span>
-            <a href="mailto:enquiry@deeprootsystems.in" className="hover:text-zinc-300 transition-colors">enquiry@deeprootsystems.in</a>
+      {/* Footer */}
+      <footer className="bg-zinc-950 border-t border-zinc-900 py-14 px-4 text-xs text-zinc-500 relative z-10">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="space-y-2">
+            <div className="text-sm font-semibold text-zinc-200">Deeproot Systems</div>
+            <p>Software shaped around your business.</p>
+            <p>Hyderabad, India</p>
+            <a href="mailto:enquiry@deeprootsystems.in" className="hover:text-zinc-300 transition-colors block">enquiry@deeprootsystems.in</a>
+          </div>
+          <div className="space-y-2">
+            <div className="text-xs font-semibold text-zinc-300">Products</div>
+            <a href={SOLARFLOW_DEMO_URL} target="_blank" rel="noopener noreferrer" className="block hover:text-zinc-300 transition-colors">SolarFlow™ live demo</a>
+            <button onClick={() => openProject("solar_crm")} className="block hover:text-zinc-300 transition-colors cursor-pointer">SolarFlow™ breakdown</button>
+            <button onClick={() => openProject("invoice_ocr")} className="block hover:text-zinc-300 transition-colors cursor-pointer">Invoice Automater</button>
+            <button onClick={() => scrollTo("tools")} className="block hover:text-zinc-300 transition-colors cursor-pointer">Business Toolbox</button>
+          </div>
+          <div className="space-y-2">
+            <div className="text-xs font-semibold text-zinc-300">Services</div>
+            <button onClick={() => scrollTo("documents")} className="block text-left hover:text-zinc-300 transition-colors cursor-pointer">Document automation</button>
+            {SETUPS.map((serv) => (
+              <button key={serv.id} onClick={() => scrollTo(serv.id)} className="block text-left hover:text-zinc-300 transition-colors cursor-pointer">
+                {serv.title}
+              </button>
+            ))}
+          </div>
+          <div className="space-y-2">
+            <div className="text-xs font-semibold text-zinc-300">Company</div>
+            <button onClick={() => scrollTo("approach")} className="block hover:text-zinc-300 transition-colors cursor-pointer">Our approach</button>
+            <button onClick={() => scrollTo("partnership")} className="block hover:text-zinc-300 transition-colors cursor-pointer">Partnership & plans</button>
+            <button onClick={() => scrollTo("build-with-us")} className="block hover:text-zinc-300 transition-colors cursor-pointer">Build a product with us</button>
+            <button onClick={() => setCurrentView("blogs")} className="block hover:text-zinc-300 transition-colors cursor-pointer">Blogs</button>
           </div>
         </div>
+        <p className="max-w-7xl mx-auto mt-10 pt-6 border-t border-zinc-900 text-zinc-600">
+          © {new Date().getFullYear()} Deeproot Systems. All rights reserved.
+        </p>
       </footer>
 
     </div>
