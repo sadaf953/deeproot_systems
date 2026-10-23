@@ -14,7 +14,7 @@ import { SeriousProjectsView } from "@/src/components/SeriousProjectsView";
 import {
   SOLARFLOW_DEMO_URL, GENERIC_VS_BUILT, SOLARFLOW_STATS, SOLARFLOW_FEATURES, CLIENT_BUILDS,
   CUSTOMIZATION_STEPS, GOOD_FEATURES, TOOLS, DOC_EXAMPLES, DOC_FLOW, SETUPS, EXTRA_SETUPS,
-  PARTNERSHIP_POINTS, PLANS, VENTURE_STEPS, HIGHLIGHTS, TESTIMONIALS,
+  SUPPORT_POINTS, PLANS, VENTURE_STEPS, VENTURE_BENEFITS, HIGHLIGHTS, TESTIMONIALS,
 } from "@/src/homeContent";
 
 const approvedTestimonials = TESTIMONIALS.filter((t) => t.approved);
@@ -25,7 +25,7 @@ const NAV_LINKS: { label: string; target: string }[] = [
   { label: "Approach", target: "approach" },
   { label: "SolarFlow", target: "solarflow" },
   { label: "Services", target: "services" },
-  { label: "Partnership", target: "partnership" },
+  { label: "Plans", target: "plans" },
   { label: "Contact", target: "contact" },
 ];
 
@@ -34,7 +34,7 @@ const QUICK_LINKS = [
   { target: "tools", icon: Wrench, title: "Ready-made business tools", desc: "Quotes, GST, receipts, payslips" },
   { target: "documents", icon: FileStack, title: "Document automation", desc: "Any repeat document, in seconds" },
   { target: "services", icon: Sparkles, title: "One-time setups", desc: "Email, Shopify, OCR, document links" },
-  { target: "build-with-us", icon: Percent, title: "Build a product with us", desc: "Earn a share of every sale" },
+  { target: "build-with-us", icon: Percent, title: "Royalty program", desc: "Lower price, plus a share of future sales" },
 ];
 
 const fadeUpItem = {
@@ -625,14 +625,14 @@ export default function App() {
             </Section>
 
 
-            {/* LONG-TERM PARTNERSHIP + PLANS */}
-            <Section id="partnership">
-              <SectionHeader label="Long-term partnership" title="We don't hand over and disappear.">
+            {/* LONG-TERM SUPPORT + PLANS */}
+            <Section id="plans">
+              <SectionHeader label="Long-term support" title="We don't hand over and disappear.">
                 Your business will change, and your system should change with it. We work with clients for the long run, so the
                 same team keeps improving the same system year after year.
               </SectionHeader>
 
-              <IconGrid items={PARTNERSHIP_POINTS} cols="lg:grid-cols-4" />
+              <IconGrid items={SUPPORT_POINTS} cols="lg:grid-cols-4" />
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {PLANS.map((plan) => (
@@ -654,16 +654,30 @@ export default function App() {
             </Section>
 
 
-            {/* BUILD WITH US: ROYALTY MODEL */}
+            {/* ROYALTY PROGRAM */}
             <Section id="build-with-us">
               <div className="rounded-3xl border border-[#14321a] bg-gradient-to-br from-[#0d170f]/70 via-zinc-950 to-zinc-950 p-6 sm:p-10 lg:p-14 space-y-12 relative overflow-hidden">
                 <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-[#22c55e]/10 blur-3xl pointer-events-none" />
 
                 <div className="relative">
-                  <SectionHeader label="Build a product with us" title="Help us build it, and earn from every sale.">
-                    This is how SolarFlow started. We find an industry that still runs on spreadsheets, build the product
-                    hand in hand with one company, and then offer it to others in the same field.
+                  <SectionHeader label="Royalty program" title="You know how it should work. We know how to build it.">
+                    As an owner in a specialised field, you understand exactly what your industry's software needs to do.
+                    What's usually missing is the team to build it, and fully custom software usually costs far more.
+                    So we build it with you: you bring the knowledge, we bring the skills, and you get your software for much less. This is how SolarFlow started.
                   </SectionHeader>
+                </div>
+
+                <div className="relative grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {VENTURE_BENEFITS.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <div key={item.title} className="rounded-xl border border-[#14321a] bg-[#0d170f]/60 p-6">
+                        <Icon className="h-5 w-5 text-[#22c55e]" />
+                        <div className="text-base font-semibold text-white mt-4">{item.title}</div>
+                        <div className="text-sm text-zinc-300 leading-relaxed mt-1.5">{item.desc}</div>
+                      </div>
+                    );
+                  })}
                 </div>
 
                 <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -684,16 +698,15 @@ export default function App() {
 
                 <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-6 items-center rounded-2xl border border-[#22c55e]/30 bg-zinc-950/70 p-6 sm:p-8">
                   <div className="lg:col-span-8 space-y-3">
-                    <h3 className="font-display text-lg sm:text-xl font-bold text-white">How the royalty works</h3>
+                    <h3 className="font-display text-lg sm:text-xl font-bold text-white">Have a vision for software in your field?</h3>
                     <p className="text-sm text-zinc-300 leading-relaxed">
-                      If there is demand and we sell the product to other companies, the company that helped build it gets a
-                      percentage of those sales. The percentage depends on how much they contributed: time, know-how and money.
-                      It is paid until they have earned back what they put in, or for up to two years, whichever comes first.
+                      Tell us about it. If it's a fit, we will walk you through the reduced price and the
+                      royalty terms, and put it all in a contract before any work starts.
                     </p>
                   </div>
                   <div className="lg:col-span-4 flex lg:justify-end">
-                    <Button variant="default" className="w-full lg:w-auto" onClick={() => enquire("I'd like to build an industry product with Deeproot.")}>
-                      Pitch Your Industry
+                    <Button variant="default" className="w-full lg:w-auto" onClick={() => enquire("I have an idea for custom software in my field and would like to join the royalty program.")}>
+                      Share Your Idea
                       <ArrowRight className="h-4 w-4 ml-2" />
                     </Button>
                   </div>
@@ -790,8 +803,8 @@ export default function App() {
           <div className="space-y-2">
             <div className="text-xs font-semibold text-zinc-300">Company</div>
             <button onClick={() => scrollTo("approach")} className="block hover:text-zinc-300 transition-colors cursor-pointer">Our approach</button>
-            <button onClick={() => scrollTo("partnership")} className="block hover:text-zinc-300 transition-colors cursor-pointer">Partnership & plans</button>
-            <button onClick={() => scrollTo("build-with-us")} className="block hover:text-zinc-300 transition-colors cursor-pointer">Build a product with us</button>
+            <button onClick={() => scrollTo("plans")} className="block hover:text-zinc-300 transition-colors cursor-pointer">Support & plans</button>
+            <button onClick={() => scrollTo("build-with-us")} className="block hover:text-zinc-300 transition-colors cursor-pointer">Royalty program</button>
             <button onClick={() => setCurrentView("blogs")} className="block hover:text-zinc-300 transition-colors cursor-pointer">Blogs</button>
           </div>
         </div>

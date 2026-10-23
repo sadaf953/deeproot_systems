@@ -194,7 +194,7 @@ export const EXTRA_SETUPS = [
   { icon: Stamp, title: "Branded documents", desc: "Letterhead and numbering on everything you send." },
 ];
 
-export const PARTNERSHIP_POINTS = [
+export const SUPPORT_POINTS = [
   { icon: PhoneCall, title: "Same team, start to finish", desc: "The people who map your process are the ones who build and support it." },
   { icon: TrendingUp, title: "Grows as you grow", desc: "New branch, new partner type, new product line: the system changes with you." },
   { icon: Wrench, title: "Small changes, quickly", desc: "A new field, a renamed stage or a new report, without starting a new project." },
@@ -224,11 +224,17 @@ export const PLANS = [
   },
 ];
 
+export const VENTURE_BENEFITS = [
+  { icon: ShieldCheck, title: "No risk, no extra investment", desc: "You pay for your own software at a lower rate than a custom build. That's it." },
+  { icon: Wallet, title: "Get your money back", desc: "When others in your field buy it, you earn a share of every sale until what you paid is returned, for up to two years." },
+  { icon: FileText, title: "Everything in writing", desc: "Nothing is left to word of mouth. Both sides sign a detailed contract that protects your contribution and ours." },
+];
+
 export const VENTURE_STEPS = [
-  { icon: Compass, title: "We pick a field", desc: "An industry where the work is still run on sheets, paper and WhatsApp." },
-  { icon: Hammer, title: "We build it with one company", desc: "A real product, shaped day to day with one business that lives the problem." },
-  { icon: Megaphone, title: "We offer it to the industry", desc: "If other companies in the same field want it, we sell it to them too." },
-  { icon: Handshake, title: "The first company earns from it", desc: "A share of every sale, based on how much they put in." },
+  { icon: Compass, title: "You bring the vision", desc: "You know your field and exactly how its software should work." },
+  { icon: Hammer, title: "We build it together", desc: "A real product, shaped day to day around how your business runs." },
+  { icon: Megaphone, title: "We offer it to the industry", desc: "If other companies in your field want it, we sell it to them too." },
+  { icon: Handshake, title: "You earn from every sale", desc: "A share based on your contribution, agreed in the contract." },
 ];
 
 // Short "why us" points shown under the hero
