@@ -5,7 +5,7 @@ import {
   PenLine, MessagesSquare, ListChecks, Calculator, Receipt, BadgeCheck, ShoppingCart, Wallet,
   Stamp, SunMedium, Palette, ToggleRight, ListOrdered, Rows3, Compass, Hammer, Megaphone, Handshake,
   PhoneCall, Wrench, LifeBuoy, TrendingUp, BellRing, LayoutDashboard, CloudUpload,
-  Infinity, SlidersHorizontal, UserX, Globe, HardDrive,
+  Infinity, SlidersHorizontal, UserX, Globe, HardDrive, KeyRound, MapPin,
 } from "lucide-react";
 
 export const SOLARFLOW_DEMO_URL = "https://solarflow.deeprootsystems.in";
@@ -41,6 +41,8 @@ export const SOLARFLOW_FEATURES = [
   { icon: Truck, title: "Godown & delivery trips", desc: "Bills of material, truck loading sheets, partial deliveries and stock deducted on delivery." },
   { icon: Users, title: "Portals for partners", desc: "Channel partners, dealers, vendors, technicians and stamp makers each see only their own work." },
   { icon: ShieldCheck, title: "Full audit trail", desc: "Every save and stage move is logged with the person behind it." },
+  { icon: KeyRound, title: "OTP to the customer", desc: "A one-time code is sent to the customer, so they confirm the visit or job themselves." },
+  { icon: MapPin, title: "GPS tracking of staff", desc: "See where staff and technicians are on the job, with km travelled." },
 ];
 
 // Client versions of SolarFlow and what was built specially for each
