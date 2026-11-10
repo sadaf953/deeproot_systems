@@ -12,6 +12,7 @@ import { BlogsView } from "@/src/components/BlogsView";
 import { MiniAppsView } from "@/src/components/MiniApps";
 import { SeriousProjectsView } from "@/src/components/SeriousProjectsView";
 import { FreeToolsView } from "@/src/components/FreeTools";
+import { PipelinePlay } from "@/src/components/PipelinePlay";
 import {
   SOLARFLOW_DEMO_URL, GENERIC_VS_BUILT, SOLARFLOW_STATS, SOLARFLOW_FEATURES, CLIENT_BUILDS,
   CUSTOMIZATION_STEPS, GOOD_FEATURES, TOOLS, DOC_EXAMPLES, DOC_FLOW, SETUPS, EXTRA_SETUPS,
@@ -386,6 +387,13 @@ export default function App({ initialPath = "/" }: { initialPath?: string }) {
               </div>
             </section>
 
+
+            {/* TRY IT: TAP-TO-PLAY PIPELINE */}
+            <section id="try-it" className="px-4 sm:px-6 lg:px-8 pb-20 scroll-mt-16">
+              <div className="max-w-7xl mx-auto">
+                <PipelinePlay demoUrl={SOLARFLOW_DEMO_URL} />
+              </div>
+            </section>
 
             {/* HIGHLIGHTS: WHAT EVERY SYSTEM COMES WITH */}
             <section className="px-4 sm:px-6 lg:px-8 py-14 border-t border-zinc-900/60 bg-zinc-900/20">
