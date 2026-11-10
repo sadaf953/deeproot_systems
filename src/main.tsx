@@ -6,7 +6,7 @@ import './index.css';
 const container = document.getElementById('root')!;
 const app = (
   <StrictMode>
-    <App />
+    <App initialPath={window.location.pathname} />
   </StrictMode>
 );
 

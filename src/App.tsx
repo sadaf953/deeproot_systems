@@ -11,6 +11,7 @@ import { PixelMushroom } from "@/src/components/PixelMushroom";
 import { BlogsView } from "@/src/components/BlogsView";
 import { MiniAppsView } from "@/src/components/MiniApps";
 import { SeriousProjectsView } from "@/src/components/SeriousProjectsView";
+import { FreeToolsView } from "@/src/components/FreeTools";
 import {
   SOLARFLOW_DEMO_URL, GENERIC_VS_BUILT, SOLARFLOW_STATS, SOLARFLOW_FEATURES, CLIENT_BUILDS,
   CUSTOMIZATION_STEPS, GOOD_FEATURES, TOOLS, DOC_EXAMPLES, DOC_FLOW, SETUPS, EXTRA_SETUPS,
@@ -20,7 +21,10 @@ import {
 const approvedTestimonials = TESTIMONIALS.filter((t) => t.approved);
 const solarflowFeatureCount = SOLARFLOW_ALL_FEATURES.reduce((n, g) => n + g.items.length, 0);
 
-type View = "home" | "blogs" | "miniapps" | "serious-projects";
+type View = "home" | "blogs" | "miniapps" | "serious-projects" | "tools";
+
+const TOOLS_PATH = "/tools/";
+const viewFromPath = (path: string): View => (path.startsWith("/tools") ? "tools" : "home");
 
 const NAV_LINKS: { label: string; target: string }[] = [
   { label: "Approach", target: "approach" },
@@ -96,10 +100,10 @@ function IconGrid({ items, cols }: { items: { icon: React.ElementType; title: st
   );
 }
 
-export default function App() {
+export default function App({ initialPath = "/" }: { initialPath?: string }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
-  const [currentView, setCurrentView] = React.useState<View>("home");
+  const [currentView, setCurrentView] = React.useState<View>(() => viewFromPath(initialPath));
   const [selectedProjectId, setSelectedProjectId] = React.useState<string>("solar_crm");
   const [demoPrefill, setDemoPrefill] = React.useState<string>("");
   const [showAllFeatures, setShowAllFeatures] = React.useState(false);
@@ -108,6 +112,23 @@ export default function App() {
   React.useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentView]);
+
+  // The tools page has its own address (/tools/) so it can be shared and found in search
+  React.useEffect(() => {
+    const onTools = window.location.pathname.startsWith("/tools");
+    if (currentView === "tools" && !onTools) history.pushState(null, "", TOOLS_PATH);
+    else if (currentView !== "tools" && onTools) history.pushState(null, "", "/");
+    document.title =
+      currentView === "tools"
+        ? "Free Business Tools: GST, EMI, PDF, Background Remover | Deeproot Systems"
+        : "Deeproot Systems | Operations Software for Growing Businesses";
+  }, [currentView]);
+
+  React.useEffect(() => {
+    const onPop = () => setCurrentView(viewFromPath(window.location.pathname));
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
 
   // Solid nav background once the page scrolls
   React.useEffect(() => {
@@ -185,6 +206,13 @@ export default function App() {
             >
               Products
             </button>
+            <a
+              href={TOOLS_PATH}
+              onClick={(e) => { e.preventDefault(); setCurrentView("tools"); }}
+              className={`text-sm font-medium cursor-pointer hover:text-[#22c55e] transition-colors ${currentView === "tools" ? "text-[#22c55e]" : "text-zinc-400"}`}
+            >
+              Free Tools
+            </a>
             <button
               onClick={() => setCurrentView("blogs")}
               className={`text-sm font-medium cursor-pointer hover:text-[#22c55e] transition-colors ${currentView === "blogs" ? "text-[#22c55e]" : "text-zinc-400"}`}
@@ -241,6 +269,13 @@ export default function App() {
               >
                 Products
               </button>
+              <a
+                href={TOOLS_PATH}
+                onClick={(e) => { e.preventDefault(); setCurrentView("tools"); setIsMobileMenuOpen(false); }}
+                className="text-left text-sm font-medium tracking-wide border-b border-zinc-900 pb-2 text-zinc-400"
+              >
+                Free Tools
+              </a>
               <button
                 onClick={() => { setCurrentView("blogs"); setIsMobileMenuOpen(false); }}
                 className="text-left text-sm font-medium tracking-wide pb-1 text-zinc-400"
@@ -586,6 +621,13 @@ export default function App() {
                     Ask About the Toolbox
                     <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
                   </Button>
+                  <p className="text-sm text-zinc-400">
+                    Or try our{" "}
+                    <a href={TOOLS_PATH} onClick={(e) => { e.preventDefault(); setCurrentView("tools"); }} className="text-[#22c55e] hover:underline">
+                      free tools
+                    </a>
+                    : GST, EMI, PDF to text, background remover and more.
+                  </p>
                 </div>
                 <div className="lg:col-span-8">
                   <IconGrid items={TOOLS} cols="lg:grid-cols-3" />
@@ -819,6 +861,7 @@ export default function App() {
           <section className="relative px-4 sm:px-6 lg:px-8 py-24 max-w-7xl mx-auto min-h-[85vh]">
             {currentView === "blogs" && <BlogsView />}
             {currentView === "miniapps" && <MiniAppsView />}
+            {currentView === "tools" && <FreeToolsView onEnquire={enquire} />}
             {currentView === "serious-projects" && (
               // Keyed so picking another project from the footer remounts the view on it
               <React.Fragment key={selectedProjectId}>
@@ -868,6 +911,7 @@ export default function App() {
             <button onClick={() => openProject("solar_crm")} className="block hover:text-zinc-300 transition-colors cursor-pointer">SolarFlow™ breakdown</button>
             <button onClick={() => openProject("invoice_ocr")} className="block hover:text-zinc-300 transition-colors cursor-pointer">Invoice Automater</button>
             <button onClick={() => scrollTo("tools")} className="block hover:text-zinc-300 transition-colors cursor-pointer">Business Toolbox</button>
+            <a href={TOOLS_PATH} onClick={(e) => { e.preventDefault(); setCurrentView("tools"); }} className="block hover:text-zinc-300 transition-colors">Free tools</a>
           </div>
           <div className="space-y-2">
             <div className="text-xs font-semibold text-zinc-300">Services</div>

@@ -4,4 +4,8 @@
     <loc>https://deeprootsystems.in/</loc>
     <changefreq>monthly</changefreq>
   </url>
+  <url>
+    <loc>https://deeprootsystems.in/tools/</loc>
+    <changefreq>monthly</changefreq>
+  </url>
 </urlset>
