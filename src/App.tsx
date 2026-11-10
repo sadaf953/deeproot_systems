@@ -566,7 +566,7 @@ export default function App({ initialPath = "/" }: { initialPath?: string }) {
                   <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
                     <div>
                       <div className="text-xs font-medium text-zinc-500 font-bold">How each copy is made</div>
-                      <h4 className="font-display text-xl font-bold text-white mt-2">Two setup forms, then your own system in 3 to 5 working days.</h4>
+                      <h4 className="font-display text-xl font-bold text-white mt-2">Two setup forms, then your own system in 1 week.</h4>
                     </div>
                     <Button variant="outline" size="sm" className="h-9 px-4 hover:border-[#22c55e] shrink-0" onClick={() => requestDemo("SolarFlow")}>
                       Get Your Own Copy

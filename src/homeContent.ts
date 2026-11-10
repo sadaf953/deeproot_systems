@@ -31,7 +31,7 @@ export const SOLARFLOW_STATS = [
   { value: "14", label: "stages from lead to subsidy" },
   { value: "9", label: "user roles with their own access" },
   { value: "2 AM", label: "automatic backup, every day" },
-  { value: "3 to 5", label: "working days to launch a new copy" },
+  { value: "1 week", label: "to launch a new copy" },
 ];
 
 export const SOLARFLOW_FEATURES = [
