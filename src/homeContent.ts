@@ -350,6 +350,8 @@ export const SOLARFLOW_ALL_FEATURES: { group: string; items: [string, string][] 
       ["Installer payout view", "Installers see what they are owed and what is paid"],
       ["Job emails", "Vendors get an email when a job is assigned"],
       ["Service complaints", "Technicians claim jobs and close them with the customer's code"],
+      ["OTP to the customer", "A one-time code is sent to the customer, so they confirm the visit or job themselves"],
+      ["GPS tracking of staff", "See where staff and technicians are on the job, with km travelled"],
     ],
   },
   {
